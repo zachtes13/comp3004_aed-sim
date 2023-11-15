@@ -1,0 +1,13 @@
+November 13th, 2023 - November 19th, 2023:
+- Create a UI
+- Create Use Case Scenario (Draft)
+- Create a UML (Draft)
+
+November 20th, 2023 - November 26th, 2023:
+- Start coding UI backend elements (Draft)
+
+
+Final Week:
+- Create Final UML
+- Create Final Sequence Diagrams
+- Create Final Traceability Matrix
