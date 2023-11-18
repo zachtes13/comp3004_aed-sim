@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDebug>
+#include <QTimer>
+#include <QThread>
+#include <QRadioButton>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +21,14 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QList<QRadioButton*> radioButtons;
+
+    // maybe change to currentPhase
+    int currentIndex = 0;
+
+private slots:
+        void initialize();
+        void power();
+
 };
 #endif // MAINWINDOW_H
