@@ -3,9 +3,9 @@
 <u>Precondition</u>: User has the device and a victim is in need of treatment (victim is unconscious, not breathing, doesn't show a pulse). User has received at least basic training in life support.<br>
 <u>Success Guarantee</u>: The user is able to successfully treat the victim using the device.<br>
 <u>Main Success Scenario</u>:
-1. User performs set-up and check out procedure (UC1).
+1. If time and resources permit, <u>User Performs Set-up and Check out Procedure (UC1)</u>.
 2. User presses ON/OFF button to boot up the device.
-3. Device performs self test (UC2).
+3. Device performs <u>AED Self Test (UC2)</u>.
 4. Device notifies user to stay calm.
 5. Device Responsiveness Indicator flashes and device notifies user to check victim's responsiveness.
 6. User checks victim responsiveness.
@@ -13,7 +13,7 @@
 8. User calls or sends somebody for help.
 9. User affixes PASS (Passive Airway Support System) under victim's shoulders.
 10. Device Attach Electrodes Indicator flashes and device instructs user to attach defib pads.
-11. User attaches electrodes to victim (UC3).
+11. User begins <u>Applying Electrodes to Victim (UC3)</u>.
 12. Device Analysis Indicator flashes and user is warned to stand clear and leave victim untouched.
 13. User stands by, ensuring victim is still and untouched.
 14. Device notifies user it is analyzing victim's heart rhythm to detect ventricular fibrillation or ventricular tachycardia.
@@ -21,7 +21,7 @@
 16. Device Shock Indicator flashes and device notifies user a shock will be delivered shortly.
 17. Device emits shock tone and shock is delivered to victim.
 18. Device CPR Indicator flashes and notifies user to start CPR.
-19. User performs CPR (UC4).
+19. <u>User Performs CPR on Victim (UC4)</u>.
 20. Device Analyzing Indicator flashes and restarts analysis, repeating from step 14 as necessary.
 
 <u>Postcondition</u>: The victim has been treated successfully.<br>
