@@ -29,6 +29,7 @@ void MainWindow::initialize()
        }
     }
 
+    // Load images
     QPixmap image1("../../res/stages/isOkayImage.png");
     QPixmap image2("../../res/stages/callForHelpImage.png");
     QPixmap image3("../../res/stages/attachElectrodeImage.png");
@@ -52,6 +53,7 @@ void MainWindow::power()
     qDebug() << "Powering On";
     ui->mainDisplay2->append("POWER ON");
 
+    // Will make all the radio buttons blink once when powering on.
     for (QObject *widget : ui->frame->children()) {
        if (QRadioButton *radioButton = qobject_cast<QRadioButton*>(widget)) {
            radioButton->setAutoExclusive(false);
@@ -70,25 +72,26 @@ void MainWindow::power()
         }
     });
 
-
     QTimer* timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::blink);
 
     timer->start(1000);
 }
 
+// Will keep select the nexr radio button in a clock-wise direction
 void MainWindow::blink()
 {
     qDebug() << "Blinking";
 
     if (currentIndex > 0) {
             radioButtons.at(currentIndex - 1)->setChecked(false);
-       }
+   }
 
-        radioButtons.at(currentIndex)->setChecked(true);
-        currentIndex = (currentIndex + 1) % radioButtons.size();
+    radioButtons.at(currentIndex)->setChecked(true);
+    currentIndex = (currentIndex + 1) % radioButtons.size();
 }
 
+// Temp test function
 void MainWindow::test()
 {
     qDebug() << "Testing";
