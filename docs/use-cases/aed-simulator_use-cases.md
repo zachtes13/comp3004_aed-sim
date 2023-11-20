@@ -1,11 +1,11 @@
-## Use Case 0 (UC0) - Using the AED
+## Use Case 1 (UC1) - Using the AED
 <u>Primary Actor</u>: Device user <br>
 <u>Precondition</u>: User has the device and a victim is in need of treatment (victim is unconscious, not breathing, doesn't show a pulse). User has received at least basic training in life support.<br>
 <u>Success Guarantee</u>: The user is able to successfully treat the victim using the device.<br>
 <u>Main Success Scenario</u>:
-1. If time and resources permit, <u>User Performs Set-up and Check out Procedure (UC1)</u>.
+1. If time and resources permit, <u>User Performs Set-up and Check out Procedure (UC2)</u>.
 2. User presses ON/OFF button to boot up the device.
-3. Device performs <u>AED Self Test (UC2)</u>.
+3. Device performs <u>AED Self Test (UC3)</u>.
 4. Device notifies user to stay calm.
 5. Device Responsiveness Indicator flashes and device notifies user to check victim's responsiveness.
 6. User checks victim responsiveness.
@@ -13,7 +13,7 @@
 8. User calls or sends somebody for help.
 9. User affixes PASS (Passive Airway Support System) under victim's shoulders.
 10. Device Attach Electrodes Indicator flashes and device instructs user to attach defib pads.
-11. User begins <u>Applying Electrodes to Victim (UC3)</u>.
+11. User begins <u>Applying Electrodes to Victim (UC4)</u>.
 12. Device Analysis Indicator flashes and user is warned to stand clear and leave victim untouched.
 13. User stands by, ensuring victim is still and untouched.
 14. Device notifies user it is analyzing victim's heart rhythm to detect ventricular fibrillation or ventricular tachycardia.
@@ -21,7 +21,7 @@
 16. Device Shock Indicator flashes and device notifies user a shock will be delivered shortly.
 17. Device emits shock tone and shock is delivered to victim.
 18. Device CPR Indicator flashes and notifies user to start CPR.
-19. <u>User Performs CPR on Victim (UC4)</u>.
+19. <u>User Performs CPR on Victim (UC5)</u>.
 20. Device Analyzing Indicator flashes and restarts analysis, repeating from step 14 as necessary.
 
 <u>Postcondition</u>: The victim has been treated successfully.<br>
@@ -86,7 +86,7 @@
 	</ul>
 </ul>
 
-## Use Case 1 (UC1) - User Performs Set-up and Check out Procedure
+## Use Case 2 (UC2) - User Performs Set-up and Check out Procedure
 <u>Primary Actor</u>: Device user<br>
 <u>Precondition</u>: User has device.<br>
 <u>Success Guarantee</u>: Device is in operable state.<br>
@@ -119,7 +119,7 @@
 		</ul>
 </ul>
 
-## Use Case 2 (UC2) - AED Self Test
+## Use Case 3 (UC3) - AED Self Test
 <u>Primary Actor</u>: AED device
 <u>Precondition</u>: Device has been powered on or ON/OFF button has been held for more than 5 seconds.
 <u>Success Guarantee</u>: All steps pass self-inspection.
@@ -165,7 +165,7 @@
 	</ul>
 </ul>
 
-## Use Case 3 (UC3) - Applying Electrodes to Victim
+## Use Case 4 (UC4) - Applying Electrodes to Victim
 <u>Primary Actor</u>: Device user<br>
 <u>Precondition</u>: The device is powered on and has passed the self test.<br>
 <u>Success Guarantee</u>: Electrodes have been successfully applied to victim's chest.<br>
@@ -202,7 +202,7 @@
 	</ul>
 </ul>
 
-## Use Case 4 (UC4) - User Performs CPR on Victim
+## Use Case 5 (UC5) - User Performs CPR on Victim
 <u>Primary Actor</u>: Device user<br>
 <u>Precondition</u>: The device has informed the user to start CPR.<br>
 <u>Success Guarantee</u>: CPR has been successfully applied to victim.<br>
