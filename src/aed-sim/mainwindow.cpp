@@ -78,7 +78,7 @@ void MainWindow::power()
     timer->start(1000);
 }
 
-// Will keep select the nexr radio button in a clock-wise direction
+// Will keep selecting the next radio button in a clock-wise direction.
 void MainWindow::blink()
 {
     qDebug() << "Blinking";
