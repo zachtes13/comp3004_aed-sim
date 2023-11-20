@@ -29,6 +29,8 @@ private:
 private slots:
         void initialize();
         void power();
+        void blink();
+        void test();
 
 };
 #endif // MAINWINDOW_H
