@@ -30,6 +30,9 @@
      <enum>QFrame::Raised</enum>
     </property>
     <widget class="QRadioButton" name="isOk">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>210</x>
@@ -50,8 +53,14 @@ width: 1000px;
      <property name="text">
       <string/>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QRadioButton" name="callForHelp">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>470</x>
@@ -72,6 +81,9 @@ width: 1000px;
      <property name="text">
       <string/>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QTextBrowser" name="mainDisplay2">
      <property name="geometry">
@@ -86,7 +98,7 @@ width: 1000px;
     <widget class="QTimeEdit" name="time">
      <property name="geometry">
       <rect>
-       <x>557</x>
+       <x>560</x>
        <y>120</y>
        <width>91</width>
        <height>26</height>
@@ -97,6 +109,9 @@ width: 1000px;
      </property>
     </widget>
     <widget class="QRadioButton" name="connectDevice">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>710</x>
@@ -117,8 +132,14 @@ width: 1000px;
      <property name="text">
       <string/>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QRadioButton" name="stepBack">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>680</x>
@@ -139,8 +160,14 @@ width: 1000px;
      <property name="text">
       <string/>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QRadioButton" name="analyze">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>470</x>
@@ -161,8 +188,14 @@ width: 1000px;
      <property name="text">
       <string/>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QRadioButton" name="startCPR">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>250</x>
@@ -182,6 +215,9 @@ width: 1000px;
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QTextBrowser" name="mainDisplay">
