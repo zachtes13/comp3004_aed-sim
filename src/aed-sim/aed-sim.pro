@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    victim.cpp
+    victim.cpp \
+    aedStage.cpp
 
 HEADERS += \
     mainwindow.h \
-    victim.h
+    victim.h \
+    aedStage.h
 
 FORMS += \
     mainwindow.ui
