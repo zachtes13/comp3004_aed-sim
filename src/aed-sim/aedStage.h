@@ -13,7 +13,7 @@ class AEDStage {
     public:
 
         //constructor
-        AEDStage(string displayText, int orderInSequence);
+        AEDStage();
 
         //destructor
         virtual ~AEDStage();
