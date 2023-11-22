@@ -6,31 +6,33 @@
 #include <QTimer>
 #include <QThread>
 #include <QRadioButton>
+#include <QString>
+#include "aed.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
-public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    public:
+        MainWindow(QWidget *parent = nullptr);
+        ~MainWindow();
 
-private:
-    Ui::MainWindow *ui;
-    QList<QRadioButton*> radioButtons;
+    private:
+        Ui::MainWindow *ui;
+        AED *aed;
+        QList<QRadioButton*> indicators;
 
-    // maybe change to currentPhase
-    int currentIndex = 0;
+        // maybe change to currentPhase
+        int currentIndex = 0;
 
-private slots:
+    private slots:
         void initialize();
-        void power();
-        void blink();
+        void togglePower();
+        void blinkIndicators();
         void test();
-
+        void updateTextDisplay(QString);
 };
-#endif // MAINWINDOW_H
+#endif

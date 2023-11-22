@@ -3,29 +3,30 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
+    , ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::power);
+    aed = new AED();
+
+    connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::togglePower);
     connect(ui->testButton, &QPushButton::clicked, this, &MainWindow::test);
+    connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
 
     initialize();
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
+    delete aed;
 }
 
-void MainWindow::initialize()
-{
+void MainWindow::initialize() {
     qDebug() << "Initializing";
 
     for (QObject *widget : ui->frame->children()) {
-       if (QRadioButton *radioButton = qobject_cast<QRadioButton*>(widget)) {
-           radioButton->raise();
-           radioButtons.append(radioButton);
+       if (QRadioButton *indicator = qobject_cast<QRadioButton*>(widget)) {
+           indicator->raise();
+           indicators.append(indicator);
        }
     }
 
@@ -37,7 +38,6 @@ void MainWindow::initialize()
     QPixmap image5_1("../../res/stages/cprImage1.png");
     QPixmap image5_2("../../res/stages/cprImage2.png");
     QPixmap image6("../../res/stages/indicatorImage.png");
-
     ui->stage1Label->setPixmap(image1);
     ui->stage2Label->setPixmap(image2);
     ui->stage3Label->setPixmap(image3);
@@ -48,52 +48,49 @@ void MainWindow::initialize()
 }
 
 
-void MainWindow::power()
-{
-    qDebug() << "Powering On";
-    ui->mainDisplay2->append("POWER ON");
+void MainWindow::togglePower() {
+    if (!aed->isPoweredOn()) {
+        bool isSelfTestPassed = aed->selfTest();
 
-    // Will make all the radio buttons blink once when powering on.
-    for (QObject *widget : ui->frame->children()) {
-       if (QRadioButton *radioButton = qobject_cast<QRadioButton*>(widget)) {
-           radioButton->setAutoExclusive(false);
-           radioButton->setChecked(!radioButton->isChecked());
-           radioButton->setAutoExclusive(true);
-       }
-   }
-
-    QTimer::singleShot(850, [this](){
-       for (QObject *widget : ui->frame->children()) {
-           if (QRadioButton *radioButton = qobject_cast<QRadioButton*>(widget)) {
-               radioButton->setAutoExclusive(false);
-               radioButton->setChecked(!radioButton->isChecked());
-               radioButton->setAutoExclusive(true);
-           }
+        if (isSelfTestPassed) {
+            qDebug() << "Powering On";
+            updateTextDisplay("POWER ON.");
+            aed->togglePower();
+            blinkIndicators();
+            QThread::sleep(1);
+            updateTextDisplay("STAY CALM.");
         }
-    });
-
-    QTimer* timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &MainWindow::blink);
-
-    timer->start(1000);
+    }
+    else {
+        qDebug() << "Powering Off";
+        updateTextDisplay("POWER OFF.");
+        aed->togglePower();
+        QThread::sleep(1);
+        updateTextDisplay("");
+    }
 }
 
 // Will keep selecting the next radio button in a clock-wise direction.
-void MainWindow::blink()
-{
-    qDebug() << "Blinking";
-
-    if (currentIndex > 0) {
-            radioButtons.at(currentIndex - 1)->setChecked(false);
-   }
-
-    radioButtons.at(currentIndex)->setChecked(true);
-    currentIndex = (currentIndex + 1) % radioButtons.size();
+void MainWindow::blinkIndicators() {
+    for (int i = 0; i <= indicators.length(); i++) {
+        if (i > 0) {
+                indicators.at(i - 1)->toggle();
+                indicators.at(i - 1)->repaint();
+        }
+        if (i < indicators.length()) {
+            indicators.at(i)->toggle();
+            indicators.at(i)->repaint();
+            QThread::msleep(700);
+        }
+    }
 }
 
 // Temp test function
-void MainWindow::test()
-{
+void MainWindow::test() {
     qDebug() << "Testing";
+}
 
+void MainWindow::updateTextDisplay(QString newTextDisplayValue) {
+    ui->textDisplay->setText(newTextDisplayValue);
+    ui->textDisplay->repaint();
 }
