@@ -1,7 +1,7 @@
 #include "responsivenessstage.h"
 
 ResponsivenessStage::ResponsivenessStage() {
-    displayText = "Check responsiveness.";
+    displayText = "CHECK RESPONSIVENESS.";
     orderInSequence = 0;
 }
 
