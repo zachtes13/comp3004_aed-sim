@@ -56,6 +56,9 @@ width: 1000px;
      <property name="checkable">
       <bool>true</bool>
      </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
+     </property>
     </widget>
     <widget class="QRadioButton" name="callForHelp">
      <property name="enabled">
@@ -84,8 +87,11 @@ width: 1000px;
      <property name="checkable">
       <bool>true</bool>
      </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
+     </property>
     </widget>
-    <widget class="QTextBrowser" name="mainDisplay2">
+    <widget class="QTextBrowser" name="textDisplay">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -135,6 +141,9 @@ width: 1000px;
      <property name="checkable">
       <bool>true</bool>
      </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
+     </property>
     </widget>
     <widget class="QRadioButton" name="stepBack">
      <property name="enabled">
@@ -162,6 +171,9 @@ width: 1000px;
      </property>
      <property name="checkable">
       <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QRadioButton" name="analyze">
@@ -191,6 +203,9 @@ width: 1000px;
      <property name="checkable">
       <bool>true</bool>
      </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
+     </property>
     </widget>
     <widget class="QRadioButton" name="startCPR">
      <property name="enabled">
@@ -218,6 +233,9 @@ width: 1000px;
      </property>
      <property name="checkable">
       <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QTextBrowser" name="mainDisplay">

@@ -12,6 +12,7 @@ SOURCES += \
     aed.cpp \
     main.cpp \
     mainwindow.cpp \
+    responsivenessstage.cpp \
     victim.cpp \
     aedStage.cpp
 
@@ -19,6 +20,7 @@ HEADERS += \
     aed.h \
     constants.h \
     mainwindow.h \
+    responsivenessstage.h \
     victim.h \
     aedStage.h
 
