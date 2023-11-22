@@ -16,6 +16,7 @@ SOURCES += \
 
 HEADERS += \
     aed.h \
+    constants.h \
     mainwindow.h \
     victim.h
 

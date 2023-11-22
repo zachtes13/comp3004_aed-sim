@@ -1,4 +1,5 @@
 #include "aed.h"
+#include "constants.h"
 
 AED::AED() {
     batteryLevel = 100;
@@ -12,7 +13,10 @@ AED::~AED() {
 }
 
 bool AED::selfTest() {
-
+    if (batteryLevel < MINIMUM_BATTERY_CAPACITY || !padsPluggedIn) {
+        return false;
+    }
+    return true;
 }
 
 void AED::drainBattery() {
