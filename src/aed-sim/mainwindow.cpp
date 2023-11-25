@@ -45,8 +45,15 @@ void MainWindow::initialize() {
     ui->stage5_1Label->setPixmap(image5_1);
     ui->stage5_2Label->setPixmap(image5_2);
     ui->stage6Label->setPixmap(image6);
-}
 
+    ui->battery->setText("");
+
+    //Timer code, every 30 seconds call drainBattery() function.
+    QTimer* batteryTimer = new QTimer();
+    connect(batteryTimer, &QTimer::timeout, this, &MainWindow::drainBattery);
+    batteryTimer->start(30000);
+
+}
 
 void MainWindow::togglePower() {
     if (!aed->isPoweredOn()) {
@@ -55,6 +62,8 @@ void MainWindow::togglePower() {
         if (isSelfTestPassed) {
             qDebug() << "Powering On";
             updateTextDisplay("POWER ON.");
+            QString batteryText = QString::number(aed->getBatteryLevel());
+            ui->battery->setText("Battery: " + batteryText + "%");
             aed->togglePower();
             blinkIndicators();
             QThread::sleep(1);
@@ -64,6 +73,7 @@ void MainWindow::togglePower() {
     else {
         qDebug() << "Powering Off";
         updateTextDisplay("POWER OFF.");
+        ui->battery->setText("");
         aed->togglePower();
         QThread::sleep(1);
         updateTextDisplay("");
@@ -93,4 +103,22 @@ void MainWindow::test() {
 void MainWindow::updateTextDisplay(QString newTextDisplayValue) {
     ui->textDisplay->setText(newTextDisplayValue);
     ui->textDisplay->repaint();
+}
+
+void MainWindow::drainBattery() {
+
+    if (aed->isPoweredOn()) {
+        aed->drainBattery();
+
+        //battery is dead
+        if (aed->getBatteryLevel() == 0) {
+            ui->battery->setText("Battery: 0%");
+            togglePower(); //turn off the device.
+            ui->powerButton->setEnabled(false); //Disable the power button (our functionality currently does not allow the swapping of batteries).
+        } else {
+            QString batteryText = QString::number(aed->getBatteryLevel());
+            ui->battery->setText("Battery: " + batteryText + "%");
+        }
+    }
+
 }
