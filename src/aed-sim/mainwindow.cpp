@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::togglePower);
     connect(ui->testButton, &QPushButton::clicked, this, &MainWindow::test);
     connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(ui->replaceBatteryButton, &QPushButton::clicked, this, &MainWindow::replaceBattery);
 
     initialize();
 }
@@ -121,4 +122,18 @@ void MainWindow::drainBattery() {
         }
     }
 
+}
+
+void MainWindow::replaceBattery() {
+    qDebug() << "Replacing Battery...";
+    aed->setBatteryLevel(100);
+
+    QThread::sleep(1);
+
+    if (aed->isPoweredOn()) {
+        QString batteryText = QString::number(aed->getBatteryLevel());
+        ui->battery->setText("Battery: " + batteryText + "%");
+    }
+
+    qDebug() << "Battery Successfully Replaced.";
 }

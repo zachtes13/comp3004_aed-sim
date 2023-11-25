@@ -35,5 +35,6 @@ class MainWindow : public QMainWindow {
         void test();
         void updateTextDisplay(QString);
         void drainBattery();
+        void replaceBattery();
 };
 #endif

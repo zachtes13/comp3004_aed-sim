@@ -21,7 +21,6 @@ class AED : public QObject {
         void setPadsPluggedIn(bool);
         void togglePower();
         void setCurrentStage(AEDStage*);
-
     private:
         int batteryLevel;
         bool padsPluggedIn;
