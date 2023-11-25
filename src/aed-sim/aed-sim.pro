@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     aed.cpp \
+    helpStage.cpp \
     main.cpp \
     mainwindow.cpp \
     responsivenessstage.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 HEADERS += \
     aed.h \
     constants.h \
+    helpStage.h \
     mainwindow.h \
     responsivenessstage.h \
     victim.h \

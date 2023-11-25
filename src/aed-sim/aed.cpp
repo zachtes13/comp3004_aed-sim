@@ -2,6 +2,7 @@
 #include "aed.h"
 #include "constants.h"
 #include "responsivenessstage.h"
+#include "helpStage.h"
 
 AED::AED() {
     batteryLevel = 100;
@@ -10,6 +11,7 @@ AED::AED() {
     displayValue = "";
     currentStage = NULL;
     stages.append(new ResponsivenessStage());
+    stages.append(new HelpStage());
 }
 
 AED::~AED() {
