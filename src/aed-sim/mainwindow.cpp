@@ -49,9 +49,9 @@ void MainWindow::initialize() {
     ui->battery->setText("");
 
     //Timer code, every 30 seconds call drainBattery() function.
-    QTimer* t = new QTimer();
-    connect(t, &QTimer::timeout, this, &MainWindow::drainBattery);
-    t->start(30000);
+    QTimer* batteryTimer = new QTimer();
+    connect(batteryTimer, &QTimer::timeout, this, &MainWindow::drainBattery);
+    batteryTimer->start(30000);
 
 }
 
