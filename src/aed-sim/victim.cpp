@@ -25,7 +25,6 @@ bool Victim::isFlatlined() {
        } else {
               return false;
        }
-
 }
 
 int Victim::getHeartRate() {

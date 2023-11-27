@@ -1,4 +1,4 @@
-#include "responsivenessstage.h"
+#include "responsivenessStage.h"
 
 ResponsivenessStage::ResponsivenessStage() {
     displayText = "CHECK RESPONSIVENESS.";
@@ -6,3 +6,8 @@ ResponsivenessStage::ResponsivenessStage() {
 }
 
 ResponsivenessStage::~ResponsivenessStage() { }
+
+void ResponsivenessStage::start() {
+    qDebug() << "INSIDE RESPONSIVENESS STAGE";
+}
+

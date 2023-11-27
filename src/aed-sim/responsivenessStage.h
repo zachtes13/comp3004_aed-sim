@@ -4,9 +4,11 @@
 #include "aedStage.h"
 
 class ResponsivenessStage : public AEDStage {
+
     public:
         ResponsivenessStage();
         ~ResponsivenessStage();
-};
 
+        void start();
+};
 #endif

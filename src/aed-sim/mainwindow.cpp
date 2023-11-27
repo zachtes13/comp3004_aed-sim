@@ -12,6 +12,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->testButton, &QPushButton::clicked, this, &MainWindow::test);
     connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
 
+    connect(aed->getStages().at(0), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at(1), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at(2), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at(3), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at(4), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at(5), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+
     initialize();
 }
 
@@ -52,7 +59,6 @@ void MainWindow::initialize() {
     QTimer* batteryTimer = new QTimer();
     connect(batteryTimer, &QTimer::timeout, this, &MainWindow::drainBattery);
     batteryTimer->start(30000);
-
 }
 
 void MainWindow::togglePower() {
@@ -98,6 +104,9 @@ void MainWindow::blinkIndicators() {
 // Temp test function
 void MainWindow::test() {
     qDebug() << "Testing";
+
+    aed->setCurrentStage(aed->getStages().at(1));
+    aed->getCurrentStage()->start();
 }
 
 void MainWindow::updateTextDisplay(QString newTextDisplayValue) {

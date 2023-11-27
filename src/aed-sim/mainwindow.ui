@@ -145,7 +145,7 @@ width: 1000px;
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QRadioButton" name="stepBack">
+    <widget class="QRadioButton" name="analyze">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -176,7 +176,7 @@ width: 1000px;
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QRadioButton" name="analyze">
+    <widget class="QRadioButton" name="shocks">
      <property name="enabled">
       <bool>false</bool>
      </property>

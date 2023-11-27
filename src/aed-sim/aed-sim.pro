@@ -10,19 +10,27 @@ CONFIG += c++11
 
 SOURCES += \
     aed.cpp \
+    analysisStage.cpp \
+    cprStage.cpp \
+    electrodeStage.cpp \
     helpStage.cpp \
     main.cpp \
     mainwindow.cpp \
-    responsivenessstage.cpp \
+    responsivenessStage.cpp \
+    shockStage.cpp \
     victim.cpp \
     aedStage.cpp
 
 HEADERS += \
     aed.h \
+    analysisStage.h \
     constants.h \
+    cprStage.h \
+    electrodeStage.h \
     helpStage.h \
     mainwindow.h \
-    responsivenessstage.h \
+    responsivenessStage.h \
+    shockStage.h \
     victim.h \
     aedStage.h
 
