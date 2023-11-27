@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>961</width>
-    <height>746</height>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -547,8 +547,8 @@ background-color: #D84141;
    <widget class="QPushButton" name="replaceBatteryButton">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>640</y>
+      <x>160</x>
+      <y>610</y>
       <width>121</width>
       <height>41</height>
      </rect>
