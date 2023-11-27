@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::togglePower);
     connect(ui->testButton, &QPushButton::clicked, this, &MainWindow::test);
     connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(ui->replaceBatteryButton, &QPushButton::clicked, this, &MainWindow::replaceBattery);
 
     connect(aed->getStages().at(0), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at(1), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
@@ -114,20 +115,35 @@ void MainWindow::updateTextDisplay(QString newTextDisplayValue) {
     ui->textDisplay->repaint();
 }
 
+void MainWindow::updateBatteryDisplay() {
+    QString batteryText = "Battery: " + QString::number(aed->getBatteryLevel()) + "%";
+    ui->battery->setText(batteryText);
+    ui->battery->repaint();
+}
+
 void MainWindow::drainBattery() {
 
     if (aed->isPoweredOn()) {
         aed->drainBattery();
+        updateBatteryDisplay();
 
         //battery is dead
         if (aed->getBatteryLevel() == 0) {
-            ui->battery->setText("Battery: 0%");
             togglePower(); //turn off the device.
             ui->powerButton->setEnabled(false); //Disable the power button (our functionality currently does not allow the swapping of batteries).
-        } else {
-            QString batteryText = QString::number(aed->getBatteryLevel());
-            ui->battery->setText("Battery: " + batteryText + "%");
         }
     }
+}
 
+void MainWindow::replaceBattery() {
+    qDebug() << "Replacing Battery...";
+    aed->setBatteryLevel(100);
+
+    QThread::sleep(1);
+
+    if (aed->isPoweredOn()) {
+        updateBatteryDisplay();
+    }
+
+    qDebug() << "Battery Successfully Replaced.";
 }

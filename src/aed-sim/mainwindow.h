@@ -34,6 +34,8 @@ class MainWindow : public QMainWindow {
         void blinkIndicators();
         void test();
         void updateTextDisplay(QString);
+        void updateBatteryDisplay();
         void drainBattery();
+        void replaceBattery();
 };
 #endif
