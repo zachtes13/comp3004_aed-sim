@@ -37,5 +37,6 @@ class MainWindow : public QMainWindow {
         void updateBatteryDisplay();
         void drainBattery();
         void replaceBattery();
+        void victimAwakensOrHelpArrived(); //program exit statement
 };
 #endif

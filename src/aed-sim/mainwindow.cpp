@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aed->getStages().at(4), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at(5), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
 
+    connect(ui->victimAwakensOrHelpArrivedButton, &QPushButton::clicked, this, &MainWindow::victimAwakensOrHelpArrived);
+
     initialize();
 }
 
@@ -146,4 +148,16 @@ void MainWindow::replaceBattery() {
     }
 
     qDebug() << "Battery Successfully Replaced.";
+}
+
+void MainWindow::victimAwakensOrHelpArrived() {
+
+    if (aed->isPoweredOn()) {
+        qDebug() << "The Victim has awoken or help has arrived!";
+
+        //ASK: should the victim awake variable be set to true? what if the help arrives and takes over then the patient still won't be awake? If this variable is set to true, the device in practice shouldn't function anymore
+
+        togglePower();
+    }
+
 }
