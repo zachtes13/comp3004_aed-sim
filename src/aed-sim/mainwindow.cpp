@@ -105,7 +105,7 @@ void MainWindow::blinkIndicators() {
 void MainWindow::test() {
     qDebug() << "Testing";
 
-    aed->setCurrentStage(aed->getStages().at(0));
+    aed->setCurrentStage(aed->getStages().at(1));
     aed->getCurrentStage()->start();
 }
 

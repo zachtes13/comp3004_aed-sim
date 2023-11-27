@@ -1,8 +1,8 @@
 #include <QThread>
 #include "aed.h"
 #include "constants.h"
-#include "helpStage.h"
 #include "responsivenessStage.h"
+#include "helpStage.h"
 #include "electrodeStage.h"
 #include "analysisStage.h"
 #include "shockStage.h"
@@ -14,8 +14,8 @@ AED::AED() {
     poweredOn = false;
     displayValue = "";
     currentStage = NULL;
-    stages.append(new HelpStage());
     stages.append(new ResponsivenessStage());
+    stages.append(new HelpStage());
     stages.append(new ElectrodeStage());
     stages.append(new AnalysisStage());
     stages.append(new ShockStage());
