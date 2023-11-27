@@ -9,5 +9,8 @@ ResponsivenessStage::~ResponsivenessStage() { }
 
 void ResponsivenessStage::start() {
     qDebug() << "INSIDE RESPONSIVENESS STAGE";
+
+    updateDisplay(displayText);
+    QThread::sleep(1);
 }
 

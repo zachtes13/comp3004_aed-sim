@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <QString>
 #include <QObject>
+#include <QThread>
 #include <QDebug>
 
 using namespace std;
