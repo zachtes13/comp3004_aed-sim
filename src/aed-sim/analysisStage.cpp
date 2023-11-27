@@ -8,5 +8,6 @@ AnalysisStage::AnalysisStage() {
 AnalysisStage::~AnalysisStage() { }
 
 void AnalysisStage::start() {
-    qDebug() << "INSIDE ANALYSIS STAGE";
+    updateDisplay(displayText);
+    QThread::sleep(1);
 }

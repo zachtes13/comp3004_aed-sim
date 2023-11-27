@@ -8,7 +8,9 @@ HelpStage::HelpStage() {
 HelpStage::~HelpStage() { }
 
 void HelpStage::start() {
-    qDebug() << "INSIDE HELP STAGE";
+    updateDisplay(displayText);
+    QThread::sleep(1);
 
-    updateDisplay("TESTING UPDATE DISPLAY FROM HELP STAGE START()");
+    qDebug() << "User calls or sends for help.";
+    QThread::sleep(1);
 }

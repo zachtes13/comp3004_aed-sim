@@ -8,5 +8,6 @@ ElectrodeStage::ElectrodeStage() {
 ElectrodeStage::~ElectrodeStage() { }
 
 void ElectrodeStage::start() {
-    qDebug() << "INSIDE ELECTRODE STAGE";
+    updateDisplay(displayText);
+    QThread::sleep(1);
 }
