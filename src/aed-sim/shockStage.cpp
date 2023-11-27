@@ -8,5 +8,7 @@ ShockStage::ShockStage() {
 ShockStage::~ShockStage() { }
 
 void ShockStage::start() {
-    qDebug() << "INSIDE SHOCK STAGE";
+    updateDisplay(displayText);
+    QThread::sleep(1);
 }
+

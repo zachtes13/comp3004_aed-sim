@@ -8,5 +8,6 @@ CprStage::CprStage() {
 CprStage::~CprStage() { }
 
 void CprStage::start() {
-    qDebug() << "INSIDE CPR STAGE";
+    updateDisplay(displayText);
+    QThread::sleep(1);
 }
