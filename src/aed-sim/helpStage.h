@@ -4,9 +4,11 @@
 #include "aedStage.h"
 
 class HelpStage : public AEDStage {
+
     public:
         HelpStage();
         ~HelpStage();
-};
 
+        void start();
+};
 #endif

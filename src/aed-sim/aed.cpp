@@ -1,8 +1,12 @@
 #include <QThread>
 #include "aed.h"
 #include "constants.h"
-#include "responsivenessstage.h"
 #include "helpStage.h"
+#include "responsivenessStage.h"
+#include "electrodeStage.h"
+#include "analysisStage.h"
+#include "shockStage.h"
+#include "cprStage.h"
 
 AED::AED() {
     batteryLevel = 100;
@@ -10,8 +14,12 @@ AED::AED() {
     poweredOn = false;
     displayValue = "";
     currentStage = NULL;
-    stages.append(new ResponsivenessStage());
     stages.append(new HelpStage());
+    stages.append(new ResponsivenessStage());
+    stages.append(new ElectrodeStage());
+    stages.append(new AnalysisStage());
+    stages.append(new ShockStage());
+    stages.append(new CprStage());
 }
 
 AED::~AED() {
@@ -44,6 +52,14 @@ void AED::drainBattery() {
 
 int AED::getBatteryLevel() {
     return batteryLevel;
+}
+
+AEDStage* AED::getCurrentStage() {
+    return currentStage;
+}
+
+QVector<AEDStage*> AED::getStages() {
+    return stages;
 }
 
 bool AED::isPadsPluggedIn() {

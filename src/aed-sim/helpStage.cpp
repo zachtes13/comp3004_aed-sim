@@ -6,3 +6,9 @@ HelpStage::HelpStage() {
 }
 
 HelpStage::~HelpStage() { }
+
+void HelpStage::start() {
+    qDebug() << "INSIDE HELP STAGE";
+
+    updateDisplay("TESTING UPDATE DISPLAY FROM HELP STAGE START()");
+}

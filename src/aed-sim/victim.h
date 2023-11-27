@@ -11,7 +11,6 @@ using namespace std;
 class Victim {
 
     public:
-
         //constructor
         Victim();
 
@@ -28,7 +27,6 @@ class Victim {
         bool getPadsOn();
 
     private:
-
         int heartRate;
         bool isUnconcious;
         bool isChild;
