@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aed->getStages().at((int)StageOrderInSequence::ANALYSIS_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(ui->victimAwakensOrHelpArrivedButton, &QPushButton::clicked, this, &MainWindow::victimAwakensOrHelpArrived);
 
     initialize();
 }
@@ -164,4 +165,13 @@ void MainWindow::incrementStageSequence() {
     aed->setCurrentStage(aed->getStages().at(currentStageIndex));
     updateIndicators(currentStageIndex);
     aed->getCurrentStage()->start();
+}
+
+void MainWindow::victimAwakensOrHelpArrived() {
+
+    if (aed->isPoweredOn()) {
+        qDebug() << "The Victim has awoken or help has arrived!";
+        togglePower();
+    }
+
 }
