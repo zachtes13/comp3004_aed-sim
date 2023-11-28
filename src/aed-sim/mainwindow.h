@@ -24,15 +24,16 @@ class MainWindow : public QMainWindow {
         Ui::MainWindow *ui;
         AED *aed;
         QList<QRadioButton*> indicators;
+        int currentStageIndex;
 
-        // maybe change to currentPhase
-        int currentIndex = 0;
+        //helper functions
+        void incrementStageSequence();
+        void updateIndicators(int);
 
     private slots:
         void initialize();
         void togglePower();
         void blinkIndicators();
-        void test();
         void updateTextDisplay(QString);
         void updateBatteryDisplay();
         void drainBattery();

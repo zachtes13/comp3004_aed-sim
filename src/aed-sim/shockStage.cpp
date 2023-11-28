@@ -1,14 +1,17 @@
 #include "shockStage.h"
 
 ShockStage::ShockStage() {
-    displayText = "ANALYZING.";
-    orderInSequence = 4;
+    displayText = "SHOCK ADVISED.";
+    orderInSequence = StageOrderInSequence::SHOCK_STAGE;
 }
 
 ShockStage::~ShockStage() { }
 
 void ShockStage::start() {
     updateDisplay(displayText);
-    QThread::sleep(1);
+    QThread::sleep(2);
+    QThread::sleep(2);
+    qDebug() << "AED performs shock.";
+    QThread::sleep(2);
 }
 
