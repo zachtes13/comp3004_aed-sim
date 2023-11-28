@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "constants.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -7,18 +8,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     aed = new AED();
+    currentStageIndex = -1;
 
     connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::togglePower);
-    connect(ui->testButton, &QPushButton::clicked, this, &MainWindow::test);
     connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(ui->replaceBatteryButton, &QPushButton::clicked, this, &MainWindow::replaceBattery);
-
-    connect(aed->getStages().at(0), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
-    connect(aed->getStages().at(1), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
-    connect(aed->getStages().at(2), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
-    connect(aed->getStages().at(3), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
-    connect(aed->getStages().at(4), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
-    connect(aed->getStages().at(5), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at((int)StageOrderInSequence::RESPONSIVENESS_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at((int)StageOrderInSequence::HELP_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at((int)StageOrderInSequence::ANALYSIS_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
 
     initialize();
 }
@@ -75,6 +75,16 @@ void MainWindow::togglePower() {
             blinkIndicators();
             QThread::sleep(1);
             updateTextDisplay("STAY CALM.");
+            QThread::sleep(2);
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
         }
     }
     else {
@@ -87,27 +97,23 @@ void MainWindow::togglePower() {
     }
 }
 
-// Will keep selecting the next radio button in a clock-wise direction.
-void MainWindow::blinkIndicators() {
-    for (int i = 0; i <= indicators.length(); i++) {
-        if (i > 0) {
-                indicators.at(i - 1)->toggle();
-                indicators.at(i - 1)->repaint();
-        }
-        if (i < indicators.length()) {
-            indicators.at(i)->toggle();
-            indicators.at(i)->repaint();
-            QThread::msleep(700);
-        }
+void MainWindow::updateIndicators(int index) {
+    if (index > 0) {
+            indicators.at(index - 1)->setChecked(false);
+            indicators.at(index - 1)->repaint();
+    }
+    if (index < indicators.length()) {
+        indicators.at(index)->setChecked(true);
+        indicators.at(index)->repaint();
     }
 }
 
-// Temp test function
-void MainWindow::test() {
-    qDebug() << "Testing";
-
-    aed->setCurrentStage(aed->getStages().at(1));
-    aed->getCurrentStage()->start();
+// Will keep selecting the next radio button in a clock-wise direction.
+void MainWindow::blinkIndicators() {
+    for (int i = 0; i <= indicators.length(); i++) {
+        updateIndicators(i);
+        QThread::msleep(700);
+    }
 }
 
 void MainWindow::updateTextDisplay(QString newTextDisplayValue) {
@@ -146,4 +152,16 @@ void MainWindow::replaceBattery() {
     }
 
     qDebug() << "Battery Successfully Replaced.";
+}
+
+void MainWindow::incrementStageSequence() {
+    ++currentStageIndex;
+    if (currentStageIndex > (int)StageOrderInSequence::CPR_STAGE) {
+        currentStageIndex = (int)StageOrderInSequence::ANALYSIS_STAGE;
+        indicators.at((int)StageOrderInSequence::CPR_STAGE)->setChecked(false);
+        indicators.at((int)StageOrderInSequence::CPR_STAGE)->repaint();
+    }
+    aed->setCurrentStage(aed->getStages().at(currentStageIndex));
+    updateIndicators(currentStageIndex);
+    aed->getCurrentStage()->start();
 }

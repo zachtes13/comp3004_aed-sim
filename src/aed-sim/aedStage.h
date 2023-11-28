@@ -8,6 +8,7 @@
 #include <QObject>
 #include <QThread>
 #include <QDebug>
+#include "constants.h"
 
 using namespace std;
 
@@ -23,10 +24,11 @@ class AEDStage: public QObject {
 
         //other
         virtual void start() = 0;
+        StageOrderInSequence getOrderInSequence();
 
     protected:
         QString displayText;
-        int orderInSequence;
+        StageOrderInSequence orderInSequence;
 
     signals:
         void updateDisplay(QString);

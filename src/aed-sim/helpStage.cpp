@@ -2,15 +2,14 @@
 
 HelpStage::HelpStage() {
     displayText = "CALL FOR HELP.";
-    orderInSequence = 1;
+    orderInSequence = StageOrderInSequence::HELP_STAGE;
 }
 
 HelpStage::~HelpStage() { }
 
 void HelpStage::start() {
     updateDisplay(displayText);
-    QThread::sleep(1);
-
+    QThread::sleep(2);
     qDebug() << "User calls or sends for help.";
-    QThread::sleep(1);
+    QThread::sleep(2);
 }

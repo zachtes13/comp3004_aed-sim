@@ -2,16 +2,15 @@
 
 ResponsivenessStage::ResponsivenessStage() {
     displayText = "CHECK RESPONSIVENESS.";
-    orderInSequence = 0;
+    orderInSequence = StageOrderInSequence::RESPONSIVENESS_STAGE;
 }
 
 ResponsivenessStage::~ResponsivenessStage() { }
 
 void ResponsivenessStage::start() {
     updateDisplay(displayText);
-    QThread::sleep(1);
-
+    QThread::sleep(2);
     qDebug() << "User checks victim's responsiveness.";
-    QThread::sleep(1);
+    QThread::sleep(2);
 }
 
