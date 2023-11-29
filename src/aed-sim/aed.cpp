@@ -1,4 +1,5 @@
 #include <QThread>
+#include <QRandomGenerator>
 #include "aed.h"
 #include "constants.h"
 #include "responsivenessStage.h"
@@ -14,6 +15,7 @@ AED::AED() {
     poweredOn = false;
     displayValue = "";
     currentStage = NULL;
+    status = PASS;
     stages.append(new ResponsivenessStage());
     stages.append(new HelpStage());
     stages.append(new ElectrodeStage());
@@ -31,23 +33,22 @@ AED::~AED() {
 bool AED::selfTest() {
     qDebug("Performing self test...");
     QThread::sleep(1);
+    padsPluggedIn = QRandomGenerator::global()->generate() % 2 == 1;
     bool isBatteryInsufficient = batteryLevel < MINIMUM_BATTERY_CAPACITY;
     if (isBatteryInsufficient || !padsPluggedIn) {
         if (isBatteryInsufficient) {
             updateDisplay("CHANGE BATTERIES.");
             QThread::sleep(3);
         }
-        updateDisplay("UNIT FAILED.");
-        QThread::sleep(2);
+        setStatus(FAIL);
         return false;
     }
-    updateDisplay("UNIT OK.");
-    QThread::sleep(2);
+    setStatus(PASS);
     return true;
 }
 
 void AED::drainBattery() {
-    batteryLevel--;
+    batteryLevel - 3 < 1 ? batteryLevel = 0 : batteryLevel -= 3;
 }
 
 int AED::getBatteryLevel() {
@@ -70,6 +71,10 @@ bool AED::isPoweredOn() {
     return poweredOn;
 }
 
+STATUS AED::getStatus() {
+    return status;
+}
+
 void AED::setBatteryLevel(int newBatteryLevel) {
     batteryLevel = newBatteryLevel;
 }
@@ -84,4 +89,9 @@ void AED::togglePower() {
 
 void AED::setCurrentStage(AEDStage *newStage) {
     currentStage = newStage;
+}
+
+void AED::setStatus(STATUS newStatus) {
+    status = newStatus;
+    updateStatusDisplay(newStatus);
 }
