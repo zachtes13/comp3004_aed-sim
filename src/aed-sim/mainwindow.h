@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow {
         //helper functions
         void incrementStageSequence();
         void updateIndicators(int);
+        void triggerAedFailure();
 
     private slots:
         void initialize();
@@ -39,5 +40,6 @@ class MainWindow : public QMainWindow {
         void drainBattery();
         void replaceBattery();
         void victimAwakensOrHelpArrived(); //program exit statement
+        void updateStatusDisplay(STATUS);
 };
 #endif

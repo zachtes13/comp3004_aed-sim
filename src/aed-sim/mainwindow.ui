@@ -427,17 +427,14 @@ width: 1000px;
    <widget class="QTextBrowser" name="statusDisplay">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>550</y>
+      <x>40</x>
+      <y>570</y>
       <width>71</width>
       <height>61</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: #006500;
-
-/* When lit 
-background-color: #35B235;
+     <string notr="true">background-color: #35B235;
 </string>
     </property>
    </widget>
@@ -486,23 +483,6 @@ background-color: #35B235;
     </property>
     <property name="text">
      <string>Toggle CPR</string>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="statusDisplay2">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>550</y>
-      <width>71</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: #8B0000;
-
-/* When lit 
-background-color: #D84141;
-</string>
     </property>
    </widget>
    <widget class="QPushButton" name="applyElectrodeButton">

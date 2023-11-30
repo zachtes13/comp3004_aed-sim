@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(ui->victimAwakensOrHelpArrivedButton, &QPushButton::clicked, this, &MainWindow::victimAwakensOrHelpArrived);
+    connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
 
     initialize();
 }
@@ -57,16 +58,15 @@ void MainWindow::initialize() {
 
     ui->battery->setText("");
 
-    //Timer code, every 30 seconds call drainBattery() function.
+    //Timer code, every 5 seconds call drainBattery() function.
     QTimer* batteryTimer = new QTimer();
     connect(batteryTimer, &QTimer::timeout, this, &MainWindow::drainBattery);
-    batteryTimer->start(30000);
+    batteryTimer->start(5000);
 }
 
 void MainWindow::togglePower() {
     if (!aed->isPoweredOn()) {
         bool isSelfTestPassed = aed->selfTest();
-
         if (isSelfTestPassed) {
             qDebug() << "Powering On";
             updateTextDisplay("POWER ON.");
@@ -135,8 +135,9 @@ void MainWindow::drainBattery() {
         updateBatteryDisplay();
 
         //battery is dead
-        if (aed->getBatteryLevel() == 0) {
+        if (aed->getBatteryLevel() < 1) {
             togglePower(); //turn off the device.
+            aed->setStatus(FAIL);
             ui->powerButton->setEnabled(false); //Disable the power button (our functionality currently does not allow the swapping of batteries).
         }
     }
@@ -156,6 +157,7 @@ void MainWindow::replaceBattery() {
 }
 
 void MainWindow::incrementStageSequence() {
+    drainBattery();
     ++currentStageIndex;
     if (currentStageIndex > (int)StageOrderInSequence::CPR_STAGE) {
         currentStageIndex = (int)StageOrderInSequence::ANALYSIS_STAGE;
@@ -168,10 +170,32 @@ void MainWindow::incrementStageSequence() {
 }
 
 void MainWindow::victimAwakensOrHelpArrived() {
-
     if (aed->isPoweredOn()) {
         qDebug() << "The Victim has awoken or help has arrived!";
         togglePower();
     }
+}
 
+void MainWindow::updateStatusDisplay(STATUS newStatus) {
+    if (newStatus == PASS) {
+        ui->statusDisplay->setStyleSheet("background-color: #35B235;");
+        updateTextDisplay("UNIT OK.");
+        QThread::sleep(2);
+    }
+    else if (newStatus == FAIL) {
+        ui->statusDisplay->setStyleSheet("background-color: #D84141;");
+        updateTextDisplay("UNIT FAILED.");
+        QThread::sleep(2);
+        triggerAedFailure();
+    }
+    ui->statusDisplay->repaint();
+}
+
+void MainWindow::triggerAedFailure() {
+    if (aed->isPoweredOn()) {
+        togglePower();
+    }
+    ui->battery->setText("");
+    updateTextDisplay("");
+    qDebug() << "User adjusts cable.";
 }
