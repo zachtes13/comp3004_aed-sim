@@ -1,14 +1,15 @@
 #include "cprStage.h"
 
 CprStage::CprStage() {
-    displayText = "PERFORM CPR.";
-    orderInSequence = 5;
+    displayText = "START CPR.";
+    orderInSequence = StageOrderInSequence::CPR_STAGE;
 }
 
 CprStage::~CprStage() { }
 
 void CprStage::start() {
     updateDisplay(displayText);
+
     QThread::sleep(1);
 
     qDebug() << "User begins chest compressions on victim.";
@@ -24,5 +25,4 @@ void CprStage::start() {
     displayText = "STOP CPR.";
     updateDisplay(displayText);
     qDebug() << "User stops doing chest compressions on victim.";
-
 }

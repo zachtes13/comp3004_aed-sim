@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QObject>
 #include "aedStage.h"
+#include "constants.h"
 
 class AED : public QObject {
     Q_OBJECT
@@ -16,16 +17,16 @@ class AED : public QObject {
         bool selfTest();
         void togglePower();
         void drainBattery();
-
         bool isPoweredOn();
         bool isPadsPluggedIn();
         int getBatteryLevel();
         AEDStage* getCurrentStage();
         QVector<AEDStage*> getStages();
-
+        STATUS getStatus();
         void setBatteryLevel(int);
         void setPadsPluggedIn(bool);
         void setCurrentStage(AEDStage*);
+        void setStatus(STATUS);
 
     private:
         int batteryLevel;
@@ -34,9 +35,10 @@ class AED : public QObject {
         QString displayValue;
         AEDStage *currentStage;
         QVector<AEDStage*> stages;
+        STATUS status;
 
     signals:
         void updateDisplay(QString);
-
+        void updateStatusDisplay(STATUS);
 };
 #endif

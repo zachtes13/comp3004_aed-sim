@@ -1,13 +1,15 @@
 #include "analysisStage.h"
 
 AnalysisStage::AnalysisStage() {
-    displayText = "ANALYZING.";
-    orderInSequence = 3;
+    displayText = "DON'T TOUCH PATIENT, ANALYZING.";
+    orderInSequence = StageOrderInSequence::ANALYSIS_STAGE;
 }
 
 AnalysisStage::~AnalysisStage() { }
 
 void AnalysisStage::start() {
     updateDisplay(displayText);
-    QThread::sleep(1);
+    QThread::sleep(2);
+    qDebug() << "AED performs analysis.";
+    QThread::sleep(2);
 }
