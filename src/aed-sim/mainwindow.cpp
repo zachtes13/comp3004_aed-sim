@@ -144,11 +144,10 @@ void MainWindow::drainBattery() {
         aed->drainBattery();
         updateBatteryDisplay();
 
-        //battery is dead
         if (aed->getBatteryLevel() < 1) {
-            togglePower(); //turn off the device.
+            togglePower();
             aed->setStatus(FAIL);
-            ui->powerButton->setEnabled(false); //Disable the power button (our functionality currently does not allow the swapping of batteries).
+            ui->powerButton->setEnabled(false);
         }
     }
 }
@@ -156,6 +155,7 @@ void MainWindow::drainBattery() {
 void MainWindow::replaceBattery() {
     qDebug() << "Replacing Battery...";
     aed->setBatteryLevel(100);
+    ui->powerButton->setEnabled(true);
 
     QThread::sleep(1);
 
