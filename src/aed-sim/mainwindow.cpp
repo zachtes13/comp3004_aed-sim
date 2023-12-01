@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->victimAwakensOrHelpArrivedButton, &QPushButton::clicked, this, &MainWindow::victimAwakensOrHelpArrived);
     connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
     connect((AnalysisStage*)aed->getStages().at((int)StageOrderInSequence::ANALYSIS_STAGE), &AnalysisStage::updateECGDisplay, this, &MainWindow::updateECGDisplay);
+    connect(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &AEDStage::updateCompressionPicture, this, &MainWindow::updateCPRDisplay);
 
     initialize();
 }
@@ -77,6 +78,7 @@ void MainWindow::togglePower() {
             updateTextDisplay("POWER ON.");
             QString batteryText = QString::number(aed->getBatteryLevel());
             ui->battery->setText("Battery: " + batteryText + "%");
+            updateCPRDisplay(CompressionStatus::NO_COMPRESSIONS);
             aed->togglePower();
             blinkIndicators();
             QThread::sleep(1);
@@ -101,6 +103,7 @@ void MainWindow::togglePower() {
         qDebug() << "Powering Off";
         updateTextDisplay("POWER OFF.");
         ui->battery->setText("");
+        updateCPRDisplay(CompressionStatus::NO_COMPRESSIONS);
         aed->togglePower();
         QThread::sleep(1);
         updateTextDisplay("");
@@ -235,4 +238,27 @@ void MainWindow::updateECGDisplay(HEART_RATE victimDiagnosis) {
     }
     ui->ecgDisplay->setScaledContents(true);
     ui->ecgDisplay->repaint();
+}
+
+void MainWindow::updateCPRDisplay(CompressionStatus compressionValue) {
+    if (compressionValue == CompressionStatus::GOOD_COMPRESSIONS) {
+        //GOOD COMPRESSIONS DISPLAY
+        ui->compressionLabel1->setStyleSheet("background-color: black");
+        ui->compressionLabel2->setStyleSheet("background-color: black");
+        ui->compressionLabel3->setStyleSheet("background-color: black; border-top: 1px solid white;");
+    } else if (compressionValue == CompressionStatus::BAD_COMPRESSIONS) {
+        //BAD COMPRESSIONS DISPLAY
+        ui->compressionLabel1->setStyleSheet("background-color: black");
+        ui->compressionLabel2->setStyleSheet("background-color: white");
+        ui->compressionLabel3->setStyleSheet("background-color: white; border-top: 1px solid black; border-bottom: 1px solid black;");
+    } else {
+        //NO COMPRESSIONS DISPLAY
+        ui->compressionLabel1->setStyleSheet("background-color: white");
+        ui->compressionLabel2->setStyleSheet("background-color: white");
+        ui->compressionLabel3->setStyleSheet("background-color: white; border-top: 1px solid black; border-bottom: 1px solid black;");
+    }
+
+    ui->compressionLabel1->repaint();
+    ui->compressionLabel2->repaint();
+    ui->compressionLabel3->repaint();
 }

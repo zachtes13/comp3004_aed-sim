@@ -40,5 +40,7 @@ class AED : public QObject {
     signals:
         void updateDisplay(QString);
         void updateStatusDisplay(STATUS);
+        void updateCompressionPicture(CompressionStatus);
+
 };
 #endif

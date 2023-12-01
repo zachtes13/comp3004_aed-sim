@@ -27,6 +27,7 @@ class AEDStage: public QObject {
 
     signals:
         void updateDisplay(QString);
+        void updateCompressionPicture(CompressionStatus);
 
 };
 #endif

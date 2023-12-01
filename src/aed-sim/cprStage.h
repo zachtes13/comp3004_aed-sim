@@ -9,5 +9,6 @@ class CprStage : public AEDStage {
         CprStage();
         ~CprStage();
         void start();
+
 };
 #endif

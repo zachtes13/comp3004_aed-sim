@@ -41,5 +41,6 @@ class MainWindow : public QMainWindow {
         void victimAwakensOrHelpArrived();
         void updateStatusDisplay(STATUS);
         void updateECGDisplay(HEART_RATE);
+        void updateCPRDisplay(CompressionStatus);
 };
 #endif
