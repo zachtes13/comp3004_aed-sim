@@ -8,7 +8,7 @@ Victim::Victim() {
     isUpperPadOn = false;
     isLowerPadOn = false;
 
-    // There is a 15% chance the victim will have a pacemake
+    // There is a 15% chance the victim will have a pacemaker
     if(QRandomGenerator::global()->bounded(1, 101) < 15){
         hasPacemaker = true;
     }
@@ -25,14 +25,6 @@ void Victim::setIsChild() {
 void Victim::receiveShock() {
     //need to figure out function implementation for this.
 }
-
-//void Victim::applyPads() {
-//    padsOn = true;
-//}
-
-//void Victim::removePads() {
-//    padsOn = false;
-//}
 
 void Victim::applyUpperPad() {
     isUpperPadOn = true;
@@ -67,9 +59,13 @@ bool Victim::getIsChild() {
     return isChild;
 }
 
-//bool Victim::getPadsOn() {
-//    return padsOn;
-//}
+bool Victim::getIsLarge(){
+    return isLarge;
+}
+
+bool Victim::getHasPacemaker(){
+    return hasPacemaker;
+}
 
 bool Victim::getIsUpperPadOn() {
     return isUpperPadOn;

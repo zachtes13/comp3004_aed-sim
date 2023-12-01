@@ -27,11 +27,10 @@ class Victim {
         int getHeartRate();
         bool getUnconcious();
         bool getIsChild();
-        bool getisLarge();
+        bool getIsLarge();
         bool getHasPacemaker();
         bool getIsUpperPadOn();
         bool getIsLowerPadOn();
-//        bool getPadsOn();
 
     private:
         int heartRate;
