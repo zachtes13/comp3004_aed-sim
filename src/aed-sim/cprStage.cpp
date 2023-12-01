@@ -1,3 +1,4 @@
+#include <QRandomGenerator>
 #include "cprStage.h"
 
 CprStage::CprStage() {
@@ -21,7 +22,7 @@ void CprStage::start() {
     //This is supposed to go for 2 minutes but i've set it to 25 seconds so that you don't have to wait for 2 minutes (and ui updates every 2 seconds).
     for (int i = 0; i < 25; i += 2) {
 
-        int goodOrBadCompressions = rand() % 2; //take a random number and modulus two it, basically 50/50 chance for a good or bad compression
+        int goodOrBadCompressions = QRandomGenerator::global()->generate() % 2; //take a random number and modulus two it, basically 50/50 chance for a good or bad compression
 
         if (goodOrBadCompressions == 0) {
             displayText = "GOOD COMPRESSIONS.";
