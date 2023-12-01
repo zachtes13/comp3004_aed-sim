@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QObject>
 #include "aedStage.h"
+#include "electrodeStage.h"
 #include "constants.h"
 
 class AED : public QObject {

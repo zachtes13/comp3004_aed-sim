@@ -8,19 +8,27 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     aed = new AED();
+    victim = new Victim();
     currentStageIndex = -1;
 
     connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::togglePower);
-    connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(ui->replaceBatteryButton, &QPushButton::clicked, this, &MainWindow::replaceBattery);
+    connect(ui->victimAwakensOrHelpArrivedButton, &QPushButton::clicked, this, &MainWindow::victimAwakensOrHelpArrived);
+
+    connect(ui->applyCprPadzButton, &QPushButton::clicked, this, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyCprPads(victim);});
+    connect(ui->applyPediPadzButton, &QPushButton::clicked, this, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyPediPads(victim);});
+    connect(ui->applyUpperFrontPadButton, &QPushButton::clicked, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyUpperPad(victim);});
+    connect(ui->applyLowerBackPadButton, &QPushButton::clicked, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyLowerPad(victim);});
+
+    connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
+    connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateUIButton, this, &MainWindow::updateUIButton);
     connect(aed->getStages().at((int)StageOrderInSequence::RESPONSIVENESS_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::HELP_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::ANALYSIS_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
-    connect(ui->victimAwakensOrHelpArrivedButton, &QPushButton::clicked, this, &MainWindow::victimAwakensOrHelpArrived);
-    connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
 
     initialize();
 }
@@ -77,15 +85,15 @@ void MainWindow::togglePower() {
             QThread::sleep(1);
             updateTextDisplay("STAY CALM.");
             QThread::sleep(2);
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
         }
     }
     else {
@@ -189,6 +197,18 @@ void MainWindow::updateStatusDisplay(STATUS newStatus) {
         triggerAedFailure();
     }
     ui->statusDisplay->repaint();
+}
+
+void MainWindow::updateUIButton(BUTTON button){
+    if(button == CPR){
+        ui->applyCprPadzButton->setEnabled(false);
+    }else if(button == PEDI){
+        ui->applyPediPadzButton->setEnabled(false);
+    }else if(button == UPPER){
+        ui->applyUpperFrontPadButton->setEnabled(false);
+    }else if(button == LOWER){
+        ui->applyLowerBackPadButton->setEnabled(false);
+    }
 }
 
 void MainWindow::triggerAedFailure() {

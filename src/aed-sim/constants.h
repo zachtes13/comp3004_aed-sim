@@ -3,6 +3,7 @@
 
 const int MINIMUM_BATTERY_CAPACITY = 10;
 typedef enum {PASS, FAIL} STATUS;
+typedef enum {CPR, PEDI, UPPER, LOWER} BUTTON;
 enum class StageOrderInSequence {
     RESPONSIVENESS_STAGE = 0,
     HELP_STAGE = 1,

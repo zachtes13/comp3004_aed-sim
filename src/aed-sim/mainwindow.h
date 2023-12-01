@@ -8,6 +8,7 @@
 #include <QRadioButton>
 #include <QString>
 #include "aed.h"
+#include "victim.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,6 +24,7 @@ class MainWindow : public QMainWindow {
     private:
         Ui::MainWindow *ui;
         AED *aed;
+        Victim *victim;
         QList<QRadioButton*> indicators;
         int currentStageIndex;
 
@@ -36,10 +38,11 @@ class MainWindow : public QMainWindow {
         void togglePower();
         void blinkIndicators();
         void updateTextDisplay(QString);
+        void updateUIButton(BUTTON);
+        void updateStatusDisplay(STATUS);
         void updateBatteryDisplay();
         void drainBattery();
         void replaceBattery();
         void victimAwakensOrHelpArrived(); //program exit statement
-        void updateStatusDisplay(STATUS);
 };
 #endif

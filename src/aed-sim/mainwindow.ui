@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>961</width>
-    <height>698</height>
+    <width>966</width>
+    <height>676</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -427,10 +427,10 @@ width: 1000px;
    <widget class="QTextBrowser" name="statusDisplay">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>570</y>
-      <width>71</width>
-      <height>61</height>
+      <x>20</x>
+      <y>550</y>
+      <width>91</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -441,9 +441,9 @@ width: 1000px;
    <widget class="QLabel" name="statusLabel">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>30</x>
       <y>530</y>
-      <width>61</width>
+      <width>71</width>
       <height>21</height>
      </rect>
     </property>
@@ -456,27 +456,14 @@ width: 1000px;
      </font>
     </property>
     <property name="text">
-     <string>Status</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="shockButton">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>560</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Shock</string>
+     <string> Status</string>
     </property>
    </widget>
    <widget class="QPushButton" name="toggleCprButton">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>560</y>
+      <x>130</x>
+      <y>540</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -485,26 +472,26 @@ width: 1000px;
      <string>Toggle CPR</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="applyElectrodeButton">
+   <widget class="QPushButton" name="applyUpperFrontPadButton">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>560</y>
-      <width>121</width>
+      <x>660</x>
+      <y>540</y>
+      <width>161</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Apply Electrode</string>
+     <string>Apply Upper/Front Pad</string>
     </property>
    </widget>
    <widget class="QPushButton" name="powerButton">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>840</x>
       <y>550</y>
-      <width>141</width>
-      <height>61</height>
+      <width>101</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -514,8 +501,8 @@ width: 1000px;
    <widget class="QPushButton" name="replaceBatteryButton">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>610</y>
+      <x>130</x>
+      <y>590</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -527,14 +514,66 @@ width: 1000px;
    <widget class="QPushButton" name="victimAwakensOrHelpArrivedButton">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>610</y>
-      <width>211</width>
+      <x>260</x>
+      <y>590</y>
+      <width>201</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>Victim Awakens/Help Arrived</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="applyLowerBackPadButton">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>590</y>
+      <width>161</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Apply Lower/Back Pad</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="applyCprPadzButton">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>540</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Apply CPR-D-padz</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="applyPediPadzButton">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>590</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Apply Pedi-padz II</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="checkResponsivenessButton">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>540</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Check Responsiveness</string>
     </property>
    </widget>
   </widget>
@@ -543,7 +582,7 @@ width: 1000px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>961</width>
+     <width>966</width>
      <height>22</height>
     </rect>
    </property>
