@@ -18,7 +18,7 @@ void CprStage::start() {
     updateDisplay(displayText);
 
 
-    //This is supposed to go for 2 minutes but i've set it to 30 seconds so that you don't have to wait for 2 minutes.
+    //This is supposed to go for 2 minutes but i've set it to 25 seconds so that you don't have to wait for 2 minutes (and ui updates every 2 seconds).
     for (int i = 0; i < 25; i += 2) {
 
         int goodOrBadCompressions = rand() % 2; //take a random number and modulus two it, basically 50/50 chance for a good or bad compression
@@ -43,5 +43,7 @@ void CprStage::start() {
     updateDisplay(displayText);
     qDebug() << "User stops doing chest compressions on victim.";
     updateCompressionPicture(CompressionStatus::NO_COMPRESSIONS);
+
+    displayText = "START CPR."; //reset the displayText to the original for when cprStage is called again.
 
 }
