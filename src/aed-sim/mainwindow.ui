@@ -432,12 +432,11 @@ width: 1000px;
       <string/>
      </property>
     </widget>
-   </widget>
     <widget class="QLabel" name="compressionLabel1">
      <property name="geometry">
       <rect>
        <x>620</x>
-       <y>250</y>
+       <y>340</y>
        <width>21</width>
        <height>21</height>
       </rect>
@@ -453,7 +452,7 @@ width: 1000px;
      <property name="geometry">
       <rect>
        <x>620</x>
-       <y>270</y>
+       <y>360</y>
        <width>21</width>
        <height>31</height>
       </rect>
@@ -469,7 +468,7 @@ width: 1000px;
      <property name="geometry">
       <rect>
        <x>620</x>
-       <y>300</y>
+       <y>390</y>
        <width>21</width>
        <height>21</height>
       </rect>
