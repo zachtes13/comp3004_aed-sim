@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow {
         void incrementStageSequence();
         void updateIndicators(int);
         void triggerAedFailure();
+        void clearIndicators();
 
     private slots:
         void initialize();
@@ -42,5 +43,6 @@ class MainWindow : public QMainWindow {
         void updateStatusDisplay(STATUS);
         void updateECGDisplay(HEART_RATE);
         void updateCPRDisplay(CompressionStatus);
+        void updateShockCount();
 };
 #endif
