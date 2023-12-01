@@ -11,5 +11,10 @@ enum class StageOrderInSequence {
     SHOCK_STAGE = 4,
     CPR_STAGE = 5
 };
+enum class CompressionStatus {
+    GOOD_COMPRESSIONS = 1,
+    BAD_COMPRESSIONS = 2,
+    NO_COMPRESSIONS = 3
+};
 
 #endif
