@@ -2,6 +2,7 @@
 #define CONSTANTS_H
 
 const int MINIMUM_BATTERY_CAPACITY = 10;
+const int MAXIMUM_HEART_RATE = 251;
 typedef enum {PASS, FAIL} STATUS;
 enum class StageOrderInSequence {
     RESPONSIVENESS_STAGE = 0,
@@ -11,6 +12,13 @@ enum class StageOrderInSequence {
     SHOCK_STAGE = 4,
     CPR_STAGE = 5
 };
+typedef enum {
+    BLANK,
+    NORMAL,
+    VTACH,
+    VFIB,
+    BRADYCARDIA
+} HEART_RATE;
 enum class CompressionStatus {
     GOOD_COMPRESSIONS = 1,
     BAD_COMPRESSIONS = 2,

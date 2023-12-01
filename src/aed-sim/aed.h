@@ -6,14 +6,14 @@
 #include <QObject>
 #include "aedStage.h"
 #include "constants.h"
+#include "victim.h"
 
 class AED : public QObject {
     Q_OBJECT
 
     public:
-        AED();
+        AED(Victim*);
         ~AED();
-
         bool selfTest();
         void togglePower();
         void drainBattery();

@@ -8,7 +8,6 @@ class ElectrodeStage : public AEDStage {
     public:
         ElectrodeStage();
         ~ElectrodeStage();
-
         void start();
 };
 #endif

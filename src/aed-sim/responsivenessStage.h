@@ -8,7 +8,6 @@ class ResponsivenessStage : public AEDStage {
     public:
         ResponsivenessStage();
         ~ResponsivenessStage();
-
         void start();
 };
 #endif

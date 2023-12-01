@@ -8,7 +8,6 @@ class ShockStage : public AEDStage {
     public:
         ShockStage();
         ~ShockStage();
-
         void start();
 };
 #endif

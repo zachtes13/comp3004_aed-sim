@@ -1,13 +1,16 @@
+#include <QRandomGenerator>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "constants.h"
+#include "analysisStage.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    aed = new AED();
+    victim = new Victim();
+    aed = new AED(victim);
     currentStageIndex = -1;
 
     connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::togglePower);
@@ -21,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(ui->victimAwakensOrHelpArrivedButton, &QPushButton::clicked, this, &MainWindow::victimAwakensOrHelpArrived);
     connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
+    connect((AnalysisStage*)aed->getStages().at((int)StageOrderInSequence::ANALYSIS_STAGE), &AnalysisStage::updateECGDisplay, this, &MainWindow::updateECGDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &AEDStage::updateCompressionPicture, this, &MainWindow::updateCPRDisplay);
 
     initialize();
@@ -42,20 +46,21 @@ void MainWindow::initialize() {
     }
 
     // Load images
-    QPixmap image1("../../res/stages/isOkayImage.png");
-    QPixmap image2("../../res/stages/callForHelpImage.png");
-    QPixmap image3("../../res/stages/attachElectrodeImage.png");
-    QPixmap image4("../../res/stages/standBackImage.png");
-    QPixmap image5_1("../../res/stages/cprImage1.png");
-    QPixmap image5_2("../../res/stages/cprImage2.png");
-    QPixmap image6("../../res/stages/indicatorImage.png");
-    ui->stage1Label->setPixmap(image1);
-    ui->stage2Label->setPixmap(image2);
-    ui->stage3Label->setPixmap(image3);
-    ui->stage4Label->setPixmap(image4);
-    ui->stage5_1Label->setPixmap(image5_1);
-    ui->stage5_2Label->setPixmap(image5_2);
-    ui->stage6Label->setPixmap(image6);
+    QPixmap isOkayImage("../../res/stages/isOkayImage.png");
+    QPixmap helpImage("../../res/stages/callForHelpImage.png");
+    QPixmap electrodeImage("../../res/stages/attachElectrodeImage.png");
+    QPixmap standBackImage("../../res/stages/standBackImage.png");
+    QPixmap cprImage1("../../res/stages/cprImage1.png");
+    QPixmap cprImage2("../../res/stages/cprImage2.png");
+    QPixmap indicatorImage("../../res/stages/indicatorImage.png");
+    ui->stage1Label->setPixmap(isOkayImage);
+    ui->stage2Label->setPixmap(helpImage);
+    ui->stage3Label->setPixmap(electrodeImage);
+    ui->stage4Label->setPixmap(standBackImage);
+    ui->stage5_1Label->setPixmap(cprImage1);
+    ui->stage5_2Label->setPixmap(cprImage2);
+    ui->stage6Label->setPixmap(indicatorImage);
+    updateECGDisplay(BLANK);
 
     ui->battery->setText("");
 
@@ -88,6 +93,10 @@ void MainWindow::togglePower() {
             incrementStageSequence();
             incrementStageSequence();
             incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
         }
     }
     else {
@@ -98,6 +107,7 @@ void MainWindow::togglePower() {
         aed->togglePower();
         QThread::sleep(1);
         updateTextDisplay("");
+        updateECGDisplay(BLANK);
     }
 }
 
@@ -137,11 +147,10 @@ void MainWindow::drainBattery() {
         aed->drainBattery();
         updateBatteryDisplay();
 
-        //battery is dead
         if (aed->getBatteryLevel() < 1) {
-            togglePower(); //turn off the device.
+            togglePower();
             aed->setStatus(FAIL);
-            ui->powerButton->setEnabled(false); //Disable the power button (our functionality currently does not allow the swapping of batteries).
+            ui->powerButton->setEnabled(false);
         }
     }
 }
@@ -149,6 +158,7 @@ void MainWindow::drainBattery() {
 void MainWindow::replaceBattery() {
     qDebug() << "Replacing Battery...";
     aed->setBatteryLevel(100);
+    ui->powerButton->setEnabled(true);
 
     QThread::sleep(1);
 
@@ -203,9 +213,34 @@ void MainWindow::triggerAedFailure() {
     qDebug() << "User adjusts cable.";
 }
 
+void MainWindow::updateECGDisplay(HEART_RATE victimDiagnosis) {
+    QPixmap blankECG("../../res/ecg/ecg.jpg");
+    QPixmap normalECG("../../res/ecg/ecg_normal.jpg");
+    QPixmap vtachECG("../../res/ecg/ecg_vtach.jpg");
+    QPixmap vfibECG("../../res/ecg/ecg_vfib.jpg");
+    QPixmap bradycardiaECG("../../res/ecg/ecg_bradycardia.jpg");
+    switch(victimDiagnosis) {
+        case BLANK:
+            ui->ecgDisplay->setPixmap(blankECG);
+            break;
+        case NORMAL:
+            ui->ecgDisplay->setPixmap(normalECG);
+            break;
+        case VTACH:
+            ui->ecgDisplay->setPixmap(vtachECG);
+            break;
+        case VFIB:
+            ui->ecgDisplay->setPixmap(vfibECG);
+            break;
+        case BRADYCARDIA:
+            ui->ecgDisplay->setPixmap(bradycardiaECG);
+            break;
+    }
+    ui->ecgDisplay->setScaledContents(true);
+    ui->ecgDisplay->repaint();
+}
 
 void MainWindow::updateCPRDisplay(CompressionStatus compressionValue) {
-
     if (compressionValue == CompressionStatus::GOOD_COMPRESSIONS) {
         //GOOD COMPRESSIONS DISPLAY
         ui->compressionLabel1->setStyleSheet("background-color: black");
@@ -226,6 +261,4 @@ void MainWindow::updateCPRDisplay(CompressionStatus compressionValue) {
     ui->compressionLabel1->repaint();
     ui->compressionLabel2->repaint();
     ui->compressionLabel3->repaint();
-
 }
-
