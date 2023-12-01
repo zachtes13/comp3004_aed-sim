@@ -9,20 +9,39 @@ CprStage::~CprStage() { }
 
 void CprStage::start() {
     updateDisplay(displayText);
-
     QThread::sleep(1);
 
     qDebug() << "User begins chest compressions on victim.";
-    QThread::sleep(5);
+    QThread::sleep(1);
 
     displayText = "CONTINUE CPR.";
     updateDisplay(displayText);
 
-    QThread::sleep(115); //User completes 2 minutes CPR.
 
-    //ASK: do we want to check for good compressions or not? (2 inches deep) - would involve displaying GOOD COMPRESSIONS or BAD COMPRESSIONS
+    //This is supposed to go for 2 minutes but i've set it to 30 seconds so that you don't have to wait for 2 minutes.
+    for (int i = 0; i < 30; i += 5) {
+
+        int goodOrBadCompressions = rand() % 2; //take a random number and modulus two it, basically 50/50 chance for a good or bad compression
+
+        if (goodOrBadCompressions == 0) {
+            displayText = "GOOD COMPRESSIONS.";
+            qDebug() << "User is performing chest compressions at least 2 inches deep on victim.";
+            updateDisplay(displayText);
+            //also update ui chest compressions stuff.
+            updateCompressionPicture(CompressionStatus::GOOD_COMPRESSIONS);
+        } else {
+            displayText = "PUSH HARDER.";
+            qDebug() << "User is performing chest compressions below 2 inches deep on victim.";
+            updateDisplay(displayText);
+            updateCompressionPicture(CompressionStatus::BAD_COMPRESSIONS);
+        }
+
+        QThread::sleep(5);
+    }
 
     displayText = "STOP CPR.";
     updateDisplay(displayText);
     qDebug() << "User stops doing chest compressions on victim.";
+    updateCompressionPicture(CompressionStatus::NO_COMPRESSIONS);
+
 }

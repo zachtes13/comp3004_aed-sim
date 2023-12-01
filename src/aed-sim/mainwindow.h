@@ -41,5 +41,6 @@ class MainWindow : public QMainWindow {
         void replaceBattery();
         void victimAwakensOrHelpArrived(); //program exit statement
         void updateStatusDisplay(STATUS);
+        void updateCPRDisplay(CompressionStatus);
 };
 #endif
