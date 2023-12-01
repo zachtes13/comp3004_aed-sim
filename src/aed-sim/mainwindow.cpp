@@ -217,10 +217,10 @@ void MainWindow::updateCPRDisplay(CompressionStatus compressionValue) {
         ui->compressionLabel2->setStyleSheet("background-color: white");
         ui->compressionLabel3->setStyleSheet("background-color: white; border-top: 1px solid black; border-bottom: 1px solid black;");
     } else {
+        //NO COMPRESSIONS DISPLAY
         ui->compressionLabel1->setStyleSheet("background-color: white");
         ui->compressionLabel2->setStyleSheet("background-color: white");
         ui->compressionLabel3->setStyleSheet("background-color: white; border-top: 1px solid black; border-bottom: 1px solid black;");
-
     }
 
     ui->compressionLabel1->repaint();
