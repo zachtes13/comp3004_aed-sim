@@ -16,13 +16,8 @@ class AEDStage: public QObject {
     Q_OBJECT
 
     public:
-        //constructor
         AEDStage();
-
-        //destructor
         virtual ~AEDStage();
-
-        //other
         virtual void start() = 0;
         StageOrderInSequence getOrderInSequence();
 

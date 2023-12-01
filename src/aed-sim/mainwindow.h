@@ -23,10 +23,9 @@ class MainWindow : public QMainWindow {
     private:
         Ui::MainWindow *ui;
         AED *aed;
+        Victim *victim;
         QList<QRadioButton*> indicators;
         int currentStageIndex;
-
-        //helper functions
         void incrementStageSequence();
         void updateIndicators(int);
         void triggerAedFailure();
@@ -39,7 +38,8 @@ class MainWindow : public QMainWindow {
         void updateBatteryDisplay();
         void drainBattery();
         void replaceBattery();
-        void victimAwakensOrHelpArrived(); //program exit statement
+        void victimAwakensOrHelpArrived();
         void updateStatusDisplay(STATUS);
+        void updateECGDisplay(HEART_RATE);
 };
 #endif

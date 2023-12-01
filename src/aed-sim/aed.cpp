@@ -9,7 +9,7 @@
 #include "shockStage.h"
 #include "cprStage.h"
 
-AED::AED() {
+AED::AED(Victim *_victim) {
     batteryLevel = 100;
     padsPluggedIn = true;
     poweredOn = false;
@@ -19,7 +19,7 @@ AED::AED() {
     stages.append(new ResponsivenessStage());
     stages.append(new HelpStage());
     stages.append(new ElectrodeStage());
-    stages.append(new AnalysisStage());
+    stages.append(new AnalysisStage(_victim));
     stages.append(new ShockStage());
     stages.append(new CprStage());
 }

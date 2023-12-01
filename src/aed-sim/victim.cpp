@@ -1,10 +1,13 @@
+#include <QRandomGenerator>
 #include "victim.h"
+#include "constants.h"
 
 Victim::Victim() {
-    heartRate = 0; //figure out what to put here.
+    getHeartRate();
     isUnconcious = true;
     isChild = false; //user will set this.
     padsOn = false;
+    shockable = false;
 }
 
 void Victim::receiveShock() {
@@ -28,6 +31,7 @@ bool Victim::isFlatlined() {
 }
 
 int Victim::getHeartRate() {
+    heartRate = QRandomGenerator::global()->bounded(MAXIMUM_HEART_RATE);
     return heartRate;
 }
 
@@ -41,4 +45,12 @@ bool Victim::getIsChild() {
 
 bool Victim::getPadsOn() {
     return padsOn;
+}
+
+bool Victim::isShockable() {
+    return shockable;
+}
+
+void Victim::setShockable(bool shockableState) {
+    shockable = shockableState;
 }

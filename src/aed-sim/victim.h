@@ -11,23 +11,21 @@ using namespace std;
 class Victim {
 
     public:
-        //constructor
         Victim();
-
-        //other
         void receiveShock();
         void applyPads();
         void removePads();
         bool isFlatlined();
-
-        //getters
         int getHeartRate();
         bool getUnconcious();
         bool getIsChild();
         bool getPadsOn();
+        bool isShockable();
+        void setShockable(bool);
 
     private:
         int heartRate;
+        bool shockable;
         bool isUnconcious;
         bool isChild;
         bool padsOn;
