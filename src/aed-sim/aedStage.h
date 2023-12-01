@@ -32,8 +32,8 @@ class AEDStage: public QObject {
         StageOrderInSequence orderInSequence;
 
     signals:
+        void connectPads();
         void updateDisplay(QString);
         void updateUIButton(BUTTON);
-
 };
 #endif

@@ -12,17 +12,20 @@ MainWindow::MainWindow(QWidget *parent)
     currentStageIndex = -1;
 
     connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::togglePower);
+    connect(ui->connectCableButton, &QPushButton::clicked, this, &MainWindow::updateCable);
     connect(ui->replaceBatteryButton, &QPushButton::clicked, this, &MainWindow::replaceBattery);
     connect(ui->victimAwakensOrHelpArrivedButton, &QPushButton::clicked, this, &MainWindow::victimAwakensOrHelpArrived);
 
-    connect(ui->applyCprPadzButton, &QPushButton::clicked, this, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyCprPads(victim);});
+    connect(ui->applyCprPadzButton, &QPushButton::clicked, this, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyCprPads();});
     connect(ui->applyPediPadzButton, &QPushButton::clicked, this, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyPediPads(victim);});
     connect(ui->applyUpperFrontPadButton, &QPushButton::clicked, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyUpperPad(victim);});
     connect(ui->applyLowerBackPadButton, &QPushButton::clicked, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyLowerPad(victim);});
 
     connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
+    connect(aed, &AED::updateCable, this, &MainWindow::updateCable);
     connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateUIButton, this, &MainWindow::updateUIButton);
+    connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::connectPads, this, &MainWindow::connectPads);
     connect(aed->getStages().at((int)StageOrderInSequence::RESPONSIVENESS_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::HELP_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
@@ -36,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {
     delete ui;
     delete aed;
+    delete victim;
 }
 
 void MainWindow::initialize() {
@@ -64,6 +68,10 @@ void MainWindow::initialize() {
     ui->stage5_2Label->setPixmap(image5_2);
     ui->stage6Label->setPixmap(image6);
 
+    ui->connectCableButton->setEnabled(false);
+    ui->applyUpperFrontPadButton->setEnabled(false);
+    ui->applyLowerBackPadButton->setEnabled(false);
+
     ui->battery->setText("");
 
     //Timer code, every 5 seconds call drainBattery() function.
@@ -74,6 +82,7 @@ void MainWindow::initialize() {
 
 void MainWindow::togglePower() {
     if (!aed->isPoweredOn()) {
+
         bool isSelfTestPassed = aed->selfTest();
         if (isSelfTestPassed) {
             qDebug() << "Powering On";
@@ -84,7 +93,7 @@ void MainWindow::togglePower() {
             blinkIndicators();
             QThread::sleep(1);
             updateTextDisplay("STAY CALM.");
-            QThread::sleep(2);
+            QThread::sleep(1);
 //            incrementStageSequence();
 //            incrementStageSequence();
 //            incrementStageSequence();
@@ -137,7 +146,6 @@ void MainWindow::updateBatteryDisplay() {
 }
 
 void MainWindow::drainBattery() {
-
     if (aed->isPoweredOn()) {
         aed->drainBattery();
         updateBatteryDisplay();
@@ -182,6 +190,16 @@ void MainWindow::victimAwakensOrHelpArrived() {
         qDebug() << "The Victim has awoken or help has arrived!";
         togglePower();
     }
+    ui->applyCprPadzButton->setEnabled(true);
+    ui->applyPediPadzButton->setEnabled(true);
+    ui->applyUpperFrontPadButton->setEnabled(false);
+    ui->applyLowerBackPadButton->setEnabled(false);
+}
+
+void MainWindow::connectPads(){
+    qDebug() << "Connecting the pads to the AED device.";
+
+    aed->setPadsPluggedIn(true);
 }
 
 void MainWindow::updateStatusDisplay(STATUS newStatus) {
@@ -205,10 +223,14 @@ void MainWindow::updateUIButton(BUTTON button){
     }else if(button == PEDI){
         ui->applyPediPadzButton->setEnabled(false);
     }else if(button == UPPER){
-        ui->applyUpperFrontPadButton->setEnabled(false);
+        ui->applyUpperFrontPadButton->setEnabled(true);
     }else if(button == LOWER){
-        ui->applyLowerBackPadButton->setEnabled(false);
+        ui->applyLowerBackPadButton->setEnabled(true);
     }
+}
+
+void MainWindow::updateCable(bool isEnabled){
+    ui->connectCableButton->setEnabled(isEnabled);
 }
 
 void MainWindow::triggerAedFailure() {
@@ -217,5 +239,5 @@ void MainWindow::triggerAedFailure() {
     }
     ui->battery->setText("");
     updateTextDisplay("");
-    qDebug() << "User adjusts cable.";
+//    qDebug() << "User adjusts cable.";
 }

@@ -7,6 +7,8 @@ Victim::Victim() {
     isChild = false; //user will set this.
     isUpperPadOn = false;
     isLowerPadOn = false;
+    hasPacemaker = false;
+    isLarge = false;
 
     // There is a 15% chance the victim will have a pacemaker
     if(QRandomGenerator::global()->bounded(1, 101) < 15){

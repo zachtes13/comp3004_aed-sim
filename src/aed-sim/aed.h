@@ -21,9 +21,11 @@ class AED : public QObject {
         bool isPoweredOn();
         bool isPadsPluggedIn();
         int getBatteryLevel();
+        STATUS getStatus();
         AEDStage* getCurrentStage();
         QVector<AEDStage*> getStages();
-        STATUS getStatus();
+
+        void connectCable(bool);
         void setBatteryLevel(int);
         void setPadsPluggedIn(bool);
         void setCurrentStage(AEDStage*);
@@ -41,5 +43,6 @@ class AED : public QObject {
     signals:
         void updateDisplay(QString);
         void updateStatusDisplay(STATUS);
+        void updateCable(bool);
 };
 #endif

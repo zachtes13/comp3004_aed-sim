@@ -11,7 +11,7 @@ class ElectrodeStage : public AEDStage {
 
         void start();
 
-        void applyCprPads(Victim*);
+        void applyCprPads();
         void applyPediPads(Victim*);
         void applyUpperPad(Victim*);
         void applyLowerPad(Victim*);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>966</width>
-    <height>676</height>
+    <height>725</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -574,6 +574,19 @@ width: 1000px;
     </property>
     <property name="text">
      <string>Check Responsiveness</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="connectCableButton">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>640</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Connect Cable</string>
     </property>
    </widget>
   </widget>
