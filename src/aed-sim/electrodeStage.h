@@ -4,6 +4,7 @@
 #include "aedStage.h"
 
 class ElectrodeStage : public AEDStage {
+    Q_OBJECT
 
     public:
         ElectrodeStage();
@@ -14,6 +15,9 @@ class ElectrodeStage : public AEDStage {
         void applyPediPads(Victim*);
         void applyUpperPad(Victim*);
         void applyLowerPad(Victim*);
+
+    signals:
+        void connectPads();
 
 };
 #endif

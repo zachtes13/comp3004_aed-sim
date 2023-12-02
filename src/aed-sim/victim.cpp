@@ -5,21 +5,12 @@
 Victim::Victim() {
     getHeartRate();
     isUnconcious = true;
-    isChild = false; //user will set this.
+    isChild = false;    //user will set this.
     shockable = false;
     isUpperPadOn = false;
     isLowerPadOn = false;
-    hasPacemaker = false;
-    isLarge = false;
-
-    // There is a 15% chance the victim will have a pacemaker
-    if(QRandomGenerator::global()->bounded(1, 101) < 15){
-        hasPacemaker = true;
-    }
-    // There is a 35% chance the victim will be large
-    if(QRandomGenerator::global()->bounded(1, 101) < 35){
-        isLarge = true;
-    }
+    hasPacemaker = QRandomGenerator::global()->bounded(1, 101) < 15;  // There is a 15% chance the victim will have a pacemaker
+    isLarge = QRandomGenerator::global()->bounded(1, 101) < 35;       // There is a 35% chance the victim will be large
 }
 
 void Victim::setIsChild() {

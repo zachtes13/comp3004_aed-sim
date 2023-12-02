@@ -26,8 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
     connect(aed, &AED::updateCable, this, &MainWindow::updateCable);
-    connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateUIButton, this, &MainWindow::updateUIButton);
-    connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::connectPads, this, &MainWindow::connectPads);
+    connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateButtonStatus, this, &MainWindow::updateButtonStatus);
+    connect((ElectrodeStage*)aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &ElectrodeStage::connectPads, this, &MainWindow::connectPads);
     connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::nextStage, this, &MainWindow::incrementStageSequence);
     connect(aed->getStages().at((int)StageOrderInSequence::RESPONSIVENESS_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::HELP_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
@@ -109,21 +109,21 @@ void MainWindow::togglePower() {
             incrementStageSequence();
             incrementStageSequence();
             incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
+//            incrementStageSequence();
         }
     }
     else {
@@ -313,7 +313,7 @@ void MainWindow::updateShockCount() {
     updateTextDisplay(QString::number(aed->getShockCount()) + " SHOCK(S) DELIVERED.");
 }
 
-void MainWindow::updateUIButton(BUTTON button){
+void MainWindow::updateButtonStatus(BUTTON button){
     if(button == CPR){
         ui->applyCprPadzButton->setEnabled(false);
     }else if(button == PEDI){

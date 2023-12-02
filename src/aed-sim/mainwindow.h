@@ -37,7 +37,7 @@ class MainWindow : public QMainWindow {
         void togglePower();
         void blinkIndicators();
         void connectPads();
-        void updateUIButton(BUTTON);
+        void updateButtonStatus(BUTTON);
         void updateCable(bool);
         void updateTextDisplay(QString);
         void updateBatteryDisplay();

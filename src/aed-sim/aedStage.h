@@ -29,8 +29,7 @@ class AEDStage: public QObject {
     signals:
         void updateDisplay(QString);
         void updateCompressionPicture(CompressionStatus);
-        void updateUIButton(BUTTON);
-        void connectPads();
+        void updateButtonStatus(BUTTON);
         void nextStage();
 
 };

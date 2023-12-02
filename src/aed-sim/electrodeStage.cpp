@@ -25,10 +25,10 @@ void ElectrodeStage::applyCprPads(){
     QThread::sleep(2);
     qDebug() << "User places sensor in the middle of victims breastbone.";
 
-    updateUIButton(CPR);
-    updateUIButton(PEDI);
-    updateUIButton(UPPER);
-    updateUIButton(LOWER);
+    updateButtonStatus(CPR);
+    updateButtonStatus(PEDI);
+    updateButtonStatus(UPPER);
+    updateButtonStatus(LOWER);
 }
 
 void ElectrodeStage::applyPediPads(Victim* victim){
@@ -41,10 +41,10 @@ void ElectrodeStage::applyPediPads(Victim* victim){
     qDebug() << "User unpacks and unfolds the Pedi-padz";
 
     connectPads();
-    updateUIButton(CPR);
-    updateUIButton(PEDI);
-    updateUIButton(UPPER);
-    updateUIButton(LOWER);
+    updateButtonStatus(CPR);
+    updateButtonStatus(PEDI);
+    updateButtonStatus(UPPER);
+    updateButtonStatus(LOWER);
     victim->setIsChild();
 }
 
@@ -69,7 +69,7 @@ void ElectrodeStage::applyUpperPad(Victim* victim){
         qDebug() << "User presses down the electrode from the center out.";
     }
 
-    updateUIButton(UPPER);
+    updateButtonStatus(UPPER);
     victim->applyUpperPad();
 
     if(victim->getIsLowerPadOn()){
@@ -101,7 +101,7 @@ void ElectrodeStage::applyLowerPad(Victim* victim){
         qDebug() << "User presses the the electrode from the center out.";
     }
 
-    updateUIButton(LOWER);
+    updateButtonStatus(LOWER);
     victim->applyLowerPad();
 
     if(victim->getIsUpperPadOn()){
