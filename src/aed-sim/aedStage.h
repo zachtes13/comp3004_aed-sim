@@ -9,6 +9,7 @@
 #include <QThread>
 #include <QDebug>
 #include "constants.h"
+#include "victim.h"
 
 using namespace std;
 
@@ -28,6 +29,9 @@ class AEDStage: public QObject {
     signals:
         void updateDisplay(QString);
         void updateCompressionPicture(CompressionStatus);
+        void updateUIButton(BUTTON);
+        void connectPads();
+        void nextStage();
 
 };
 #endif

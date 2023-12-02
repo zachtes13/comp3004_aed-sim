@@ -12,14 +12,21 @@ class Victim {
 
     public:
         Victim();
+        void setIsChild();
         void receiveShock();
-        void applyPads();
-        void removePads();
+        void applyUpperPad();
+        void applyLowerPad();
+        void removeUpperPad();
+        void removeLowerPad();
         bool isFlatlined();
         int getHeartRate();
         bool getUnconcious();
         bool getIsChild();
-        bool getPadsOn();
+
+        bool getIsLarge();
+        bool getHasPacemaker();
+        bool getIsUpperPadOn();
+        bool getIsLowerPadOn();
         bool isShockable();
         void setShockable(bool);
 
@@ -28,7 +35,10 @@ class Victim {
         bool shockable;
         bool isUnconcious;
         bool isChild;
-        bool padsOn;
+        bool isLarge;
+        bool hasPacemaker;
+        bool isUpperPadOn;
+        bool isLowerPadOn;
 
 };
 #endif

@@ -17,6 +17,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::togglePower);
     connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(ui->replaceBatteryButton, &QPushButton::clicked, this, &MainWindow::replaceBattery);
+    connect(ui->connectCableButton, &QPushButton::clicked, [this](){aed->connectCable();});
+    connect(ui->applyCprPadzButton, &QPushButton::clicked, this, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyCprPads();});
+    connect(ui->applyPediPadzButton, &QPushButton::clicked, this, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyPediPads(victim);});
+    connect(ui->applyUpperFrontPadButton, &QPushButton::clicked, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyUpperPad(victim);});
+    connect(ui->applyLowerBackPadButton, &QPushButton::clicked, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyLowerPad(victim);});
+
+    connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
+    connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
+    connect(aed, &AED::updateCable, this, &MainWindow::updateCable);
+    connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateUIButton, this, &MainWindow::updateUIButton);
+    connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::connectPads, this, &MainWindow::connectPads);
+    connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::nextStage, this, &MainWindow::incrementStageSequence);
     connect(aed->getStages().at((int)StageOrderInSequence::RESPONSIVENESS_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::HELP_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
@@ -30,12 +42,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect((ShockStage*)aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &ShockStage::incrementShockCount, this, &MainWindow::updateShockCount);
     connect((ShockStage*)aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &ShockStage::drainBattery, this, &MainWindow::drainBattery);
 
+
     initialize();
 }
 
 MainWindow::~MainWindow() {
     delete ui;
     delete aed;
+    delete victim;
 }
 
 void MainWindow::initialize() {
@@ -63,6 +77,10 @@ void MainWindow::initialize() {
     ui->stage5_1Label->setPixmap(cprImage1);
     ui->stage5_2Label->setPixmap(cprImage2);
     ui->stage6Label->setPixmap(indicatorImage);
+
+    ui->connectCableButton->setEnabled(false);
+    ui->applyUpperFrontPadButton->setEnabled(false);
+    ui->applyLowerBackPadButton->setEnabled(false);
 
     updateECGDisplay(BLANK);
     ui->battery->setText("");
@@ -202,7 +220,17 @@ void MainWindow::victimAwakensOrHelpArrived() {
     if (aed->isPoweredOn()) {
         qDebug() << "The Victim has awoken or help has arrived!";
         togglePower();
+
+        ui->applyCprPadzButton->setEnabled(true);
+        ui->applyPediPadzButton->setEnabled(true);
+        ui->applyUpperFrontPadButton->setEnabled(false);
+        ui->applyLowerBackPadButton->setEnabled(false);
     }
+}
+
+void MainWindow::connectPads(){
+    qDebug() << "Connecting the pads to the AED device.";
+    aed->setPadsPluggedIn(true);
 }
 
 void MainWindow::updateStatusDisplay(STATUS newStatus) {
@@ -226,7 +254,6 @@ void MainWindow::triggerAedFailure() {
     }
     ui->battery->setText("");
     updateTextDisplay("");
-    qDebug() << "User adjusts cable.";
 }
 
 void MainWindow::updateECGDisplay(HEART_RATE victimDiagnosis) {
@@ -284,4 +311,20 @@ void MainWindow::updateShockCount() {
     ui->shockCountEdit->setText(QString::number(aed->getShockCount()));
     ui->shockCountEdit->repaint();
     updateTextDisplay(QString::number(aed->getShockCount()) + " SHOCK(S) DELIVERED.");
+}
+
+void MainWindow::updateUIButton(BUTTON button){
+    if(button == CPR){
+        ui->applyCprPadzButton->setEnabled(false);
+    }else if(button == PEDI){
+        ui->applyPediPadzButton->setEnabled(false);
+    }else if(button == UPPER){
+        ui->applyUpperFrontPadButton->setEnabled(!ui->applyUpperFrontPadButton->isEnabled());
+    }else if(button == LOWER){
+        ui->applyLowerBackPadButton->setEnabled(!ui->applyLowerBackPadButton->isEnabled());
+    }
+}
+
+void MainWindow::updateCable(bool isEnabled){
+    ui->connectCableButton->setEnabled(isEnabled);
 }
