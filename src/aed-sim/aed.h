@@ -47,6 +47,6 @@ class AED : public QObject {
         void updateStatusDisplay(STATUS);
         void updateCompressionPicture(CompressionStatus);
         void updateCable(bool);
-
+        void updateStageOrder(StageOrderInSequence);
 };
 #endif

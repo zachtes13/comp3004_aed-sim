@@ -18,12 +18,8 @@ void CprStage::start() {
     displayText = "CONTINUE CPR.";
     updateDisplay(displayText);
 
-
-    //This is supposed to go for 2 minutes but i've set it to 25 seconds so that you don't have to wait for 2 minutes (and ui updates every 2 seconds).
     for (int i = 0; i < 25; i += 2) {
-
         int goodOrBadCompressions = QRandomGenerator::global()->generate() % 2; //take a random number and modulus two it, basically 50/50 chance for a good or bad compression
-
         if (goodOrBadCompressions == 0) {
             displayText = "GOOD COMPRESSIONS.";
             qDebug() << "User is performing chest compressions at least 2 inches deep on victim.";
@@ -36,7 +32,6 @@ void CprStage::start() {
             updateDisplay(displayText);
             updateCompressionPicture(CompressionStatus::BAD_COMPRESSIONS);
         }
-
         QThread::sleep(2);
     }
 
@@ -46,5 +41,4 @@ void CprStage::start() {
     updateCompressionPicture(CompressionStatus::NO_COMPRESSIONS);
 
     displayText = "START CPR."; //reset the displayText to the original for when cprStage is called again.
-
 }

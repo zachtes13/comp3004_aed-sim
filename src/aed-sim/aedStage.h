@@ -31,6 +31,5 @@ class AEDStage: public QObject {
         void updateCompressionPicture(CompressionStatus);
         void updateButtonStatus(BUTTON);
         void nextStage();
-
 };
 #endif

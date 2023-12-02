@@ -18,12 +18,11 @@ typedef enum {
     NORMAL,
     VTACH,
     VFIB,
-    BRADYCARDIA
+    ASYSTOLE
 } HEART_RATE;
 enum class CompressionStatus {
     GOOD_COMPRESSIONS = 1,
     BAD_COMPRESSIONS = 2,
     NO_COMPRESSIONS = 3
 };
-
 #endif
