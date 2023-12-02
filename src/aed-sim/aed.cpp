@@ -16,11 +16,12 @@ AED::AED(Victim *_victim) {
     displayValue = "";
     currentStage = NULL;
     status = PASS;
+    shockCount = 0;
     stages.append(new ResponsivenessStage());
     stages.append(new HelpStage());
     stages.append(new ElectrodeStage());
     stages.append(new AnalysisStage(_victim));
-    stages.append(new ShockStage());
+    stages.append(new ShockStage(_victim));
     stages.append(new CprStage());
 }
 
@@ -75,6 +76,10 @@ STATUS AED::getStatus() {
     return status;
 }
 
+int AED::getShockCount() {
+    return shockCount;
+}
+
 void AED::setBatteryLevel(int newBatteryLevel) {
     batteryLevel = newBatteryLevel;
 }
@@ -94,4 +99,8 @@ void AED::setCurrentStage(AEDStage *newStage) {
 void AED::setStatus(STATUS newStatus) {
     status = newStatus;
     updateStatusDisplay(newStatus);
+}
+
+void AED::incrementShockCount() {
+    shockCount++;
 }

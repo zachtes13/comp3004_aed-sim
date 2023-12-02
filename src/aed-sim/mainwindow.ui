@@ -36,7 +36,7 @@
      <property name="geometry">
       <rect>
        <x>210</x>
-       <y>360</y>
+       <y>300</y>
        <width>16</width>
        <height>21</height>
       </rect>
@@ -102,6 +102,9 @@ width: 1000px;
      </property>
     </widget>
     <widget class="QTimeEdit" name="time">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>560</x>
@@ -121,7 +124,7 @@ width: 1000px;
      <property name="geometry">
       <rect>
        <x>710</x>
-       <y>370</y>
+       <y>310</y>
        <width>16</width>
        <height>21</height>
       </rect>
@@ -252,6 +255,9 @@ width: 1000px;
      </property>
     </widget>
     <widget class="QLineEdit" name="shockCountEdit">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>380</x>
@@ -274,7 +280,7 @@ width: 1000px;
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>280</y>
+       <y>220</y>
        <width>131</width>
        <height>111</height>
       </rect>
@@ -312,7 +318,7 @@ width: 1000px;
      <property name="geometry">
       <rect>
        <x>730</x>
-       <y>280</y>
+       <y>220</y>
        <width>131</width>
        <height>111</height>
       </rect>
@@ -401,6 +407,9 @@ width: 1000px;
      </property>
     </widget>
     <widget class="QLineEdit" name="battery">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>550</x>
@@ -514,19 +523,6 @@ width: 1000px;
     </property>
     <property name="text">
      <string>Status</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="shockButton">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>660</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Shock</string>
     </property>
    </widget>
    <widget class="QPushButton" name="toggleCprButton">

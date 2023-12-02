@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 #include "constants.h"
 #include "analysisStage.h"
+#include "shockStage.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
     connect((AnalysisStage*)aed->getStages().at((int)StageOrderInSequence::ANALYSIS_STAGE), &AnalysisStage::updateECGDisplay, this, &MainWindow::updateECGDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &AEDStage::updateCompressionPicture, this, &MainWindow::updateCPRDisplay);
+    connect((ShockStage*)aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &ShockStage::incrementShockCount, this, &MainWindow::updateShockCount);
+    connect((ShockStage*)aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &ShockStage::drainBattery, this, &MainWindow::drainBattery);
 
     initialize();
 }
@@ -60,9 +63,10 @@ void MainWindow::initialize() {
     ui->stage5_1Label->setPixmap(cprImage1);
     ui->stage5_2Label->setPixmap(cprImage2);
     ui->stage6Label->setPixmap(indicatorImage);
-    updateECGDisplay(BLANK);
 
+    updateECGDisplay(BLANK);
     ui->battery->setText("");
+    updateCPRDisplay(CompressionStatus::NO_COMPRESSIONS);
 
     //Timer code, every 5 seconds call drainBattery() function.
     QTimer* batteryTimer = new QTimer();
@@ -97,6 +101,11 @@ void MainWindow::togglePower() {
             incrementStageSequence();
             incrementStageSequence();
             incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
+            incrementStageSequence();
         }
     }
     else {
@@ -108,6 +117,7 @@ void MainWindow::togglePower() {
         QThread::sleep(1);
         updateTextDisplay("");
         updateECGDisplay(BLANK);
+        clearIndicators();
     }
 }
 
@@ -130,6 +140,13 @@ void MainWindow::blinkIndicators() {
     }
 }
 
+void MainWindow::clearIndicators() {
+    for (int i = 0; i < indicators.length(); i++) {
+        indicators.at(i)->setChecked(false);
+        indicators.at(i)->repaint();
+    }
+}
+
 void MainWindow::updateTextDisplay(QString newTextDisplayValue) {
     ui->textDisplay->setText(newTextDisplayValue);
     ui->textDisplay->repaint();
@@ -142,7 +159,6 @@ void MainWindow::updateBatteryDisplay() {
 }
 
 void MainWindow::drainBattery() {
-
     if (aed->isPoweredOn()) {
         aed->drainBattery();
         updateBatteryDisplay();
@@ -261,4 +277,11 @@ void MainWindow::updateCPRDisplay(CompressionStatus compressionValue) {
     ui->compressionLabel1->repaint();
     ui->compressionLabel2->repaint();
     ui->compressionLabel3->repaint();
+}
+
+void MainWindow::updateShockCount() {
+    aed->incrementShockCount();
+    ui->shockCountEdit->setText(QString::number(aed->getShockCount()));
+    ui->shockCountEdit->repaint();
+    updateTextDisplay(QString::number(aed->getShockCount()) + " SHOCK(S) DELIVERED.");
 }

@@ -23,10 +23,12 @@ class AED : public QObject {
         AEDStage* getCurrentStage();
         QVector<AEDStage*> getStages();
         STATUS getStatus();
+        int getShockCount();
         void setBatteryLevel(int);
         void setPadsPluggedIn(bool);
         void setCurrentStage(AEDStage*);
         void setStatus(STATUS);
+        void incrementShockCount();
 
     private:
         int batteryLevel;
@@ -36,6 +38,7 @@ class AED : public QObject {
         AEDStage *currentStage;
         QVector<AEDStage*> stages;
         STATUS status;
+        int shockCount;
 
     signals:
         void updateDisplay(QString);
