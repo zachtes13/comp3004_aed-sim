@@ -11,12 +11,13 @@
 
 AED::AED(Victim *_victim) {
     batteryLevel = 100;
-    padsPluggedIn = true;
+    padsPluggedIn = QRandomGenerator::global()->bounded(1, 101) < 50;    // There is a 50% the pads will be disconnected
     poweredOn = false;
     displayValue = "";
     currentStage = NULL;
     status = PASS;
     shockCount = 0;
+
     stages.append(new ResponsivenessStage());
     stages.append(new HelpStage());
     stages.append(new ElectrodeStage());
@@ -34,16 +35,21 @@ AED::~AED() {
 bool AED::selfTest() {
     qDebug("Performing self test...");
     QThread::sleep(1);
-    padsPluggedIn = QRandomGenerator::global()->generate() % 2 == 1;
     bool isBatteryInsufficient = batteryLevel < MINIMUM_BATTERY_CAPACITY;
     if (isBatteryInsufficient || !padsPluggedIn) {
         if (isBatteryInsufficient) {
             updateDisplay("CHANGE BATTERIES.");
-            QThread::sleep(3);
+            QThread::sleep(2);
+        } else{
+            updateDisplay("PLUG IN CABLE");
+            QThread::sleep(2);
+            updateCable(true);
         }
         setStatus(FAIL);
+        QThread::sleep(1);
         return false;
     }
+    QThread::sleep(1);
     setStatus(PASS);
     return true;
 }
@@ -103,4 +109,12 @@ void AED::setStatus(STATUS newStatus) {
 
 void AED::incrementShockCount() {
     shockCount++;
+}
+
+void AED::connectCable(){
+    qDebug() << "Connecting the cable to the AED device.";
+    QThread::sleep(1);
+    padsPluggedIn = true;
+    updateCable(false);
+    qDebug() << "Cable connected.";
 }

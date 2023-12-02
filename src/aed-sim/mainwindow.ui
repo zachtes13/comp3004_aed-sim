@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>961</width>
-    <height>808</height>
+    <height>815</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -493,9 +493,9 @@ width: 1000px;
    <widget class="QTextBrowser" name="statusDisplay">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>670</y>
-      <width>71</width>
+      <x>20</x>
+      <y>650</y>
+      <width>81</width>
       <height>61</height>
      </rect>
     </property>
@@ -507,7 +507,7 @@ width: 1000px;
    <widget class="QLabel" name="statusLabel">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>30</x>
       <y>630</y>
       <width>61</width>
       <height>21</height>
@@ -525,11 +525,76 @@ width: 1000px;
      <string>Status</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="applyLowerBackPadButton">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>700</y>
+      <width>161</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Apply Lower/Back Pad</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="applyCprPadzButton">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>650</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Apply CPR-D-padz</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="applyPediPadzButton">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>700</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Apply Pedi-padz II</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="checkResponsivenessButton">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>650</y>
+      <width>211</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Check Responsiveness</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="connectCableButton">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>730</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Plug in Cable</string>
+    </property>
+   </widget>
    <widget class="QPushButton" name="toggleCprButton">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>660</y>
+      <x>120</x>
+      <y>630</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -538,26 +603,26 @@ width: 1000px;
      <string>Toggle CPR</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="applyElectrodeButton">
+   <widget class="QPushButton" name="applyUpperFrontPadButton">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>660</y>
-      <width>121</width>
+      <x>630</x>
+      <y>650</y>
+      <width>161</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Apply Electrode</string>
+     <string>Apply Upper/Front Pad</string>
     </property>
    </widget>
    <widget class="QPushButton" name="powerButton">
     <property name="geometry">
      <rect>
       <x>800</x>
-      <y>650</y>
+      <y>660</y>
       <width>141</width>
-      <height>61</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -567,8 +632,8 @@ width: 1000px;
    <widget class="QPushButton" name="replaceBatteryButton">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>710</y>
+      <x>120</x>
+      <y>680</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -580,8 +645,8 @@ width: 1000px;
    <widget class="QPushButton" name="victimAwakensOrHelpArrivedButton">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>710</y>
+      <x>250</x>
+      <y>700</y>
       <width>211</width>
       <height>41</height>
      </rect>
