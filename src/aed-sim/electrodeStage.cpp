@@ -71,6 +71,10 @@ void ElectrodeStage::applyUpperPad(Victim* victim){
 
     updateUIButton(UPPER);
     victim->applyUpperPad();
+
+    if(victim->getIsLowerPadOn()){
+        nextStage();
+    }
 }
 
 void ElectrodeStage::applyLowerPad(Victim* victim){
@@ -99,4 +103,8 @@ void ElectrodeStage::applyLowerPad(Victim* victim){
 
     updateUIButton(LOWER);
     victim->applyLowerPad();
+
+    if(victim->getIsUpperPadOn()){
+        nextStage();
+    }
 }

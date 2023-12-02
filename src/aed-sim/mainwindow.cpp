@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     currentStageIndex = -1;
 
     connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::togglePower);
-    connect(ui->connectCableButton, &QPushButton::clicked, this, &MainWindow::updateCable);
+    connect(ui->connectCableButton, &QPushButton::clicked, [this](){aed->connectCable();});
     connect(ui->replaceBatteryButton, &QPushButton::clicked, this, &MainWindow::replaceBattery);
     connect(ui->victimAwakensOrHelpArrivedButton, &QPushButton::clicked, this, &MainWindow::victimAwakensOrHelpArrived);
 
@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aed, &AED::updateCable, this, &MainWindow::updateCable);
     connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateUIButton, this, &MainWindow::updateUIButton);
     connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::connectPads, this, &MainWindow::connectPads);
+    connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::nextStage, this, &MainWindow::incrementStageSequence);
     connect(aed->getStages().at((int)StageOrderInSequence::RESPONSIVENESS_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::HELP_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE), &AEDStage::updateDisplay, this, &MainWindow::updateTextDisplay);
@@ -223,14 +224,17 @@ void MainWindow::updateUIButton(BUTTON button){
     }else if(button == PEDI){
         ui->applyPediPadzButton->setEnabled(false);
     }else if(button == UPPER){
-        ui->applyUpperFrontPadButton->setEnabled(true);
+        ui->applyUpperFrontPadButton->setEnabled(!ui->applyUpperFrontPadButton->isEnabled());
     }else if(button == LOWER){
-        ui->applyLowerBackPadButton->setEnabled(true);
+        ui->applyLowerBackPadButton->setEnabled(!ui->applyLowerBackPadButton->isEnabled());
     }
 }
 
 void MainWindow::updateCable(bool isEnabled){
     ui->connectCableButton->setEnabled(isEnabled);
+//    if (!isEnabled){
+//        togglePower();
+//    }
 }
 
 void MainWindow::triggerAedFailure() {
@@ -239,5 +243,4 @@ void MainWindow::triggerAedFailure() {
     }
     ui->battery->setText("");
     updateTextDisplay("");
-//    qDebug() << "User adjusts cable.";
 }

@@ -25,7 +25,7 @@ class AED : public QObject {
         AEDStage* getCurrentStage();
         QVector<AEDStage*> getStages();
 
-        void connectCable(bool);
+        void connectCable();
         void setBatteryLevel(int);
         void setPadsPluggedIn(bool);
         void setCurrentStage(AEDStage*);

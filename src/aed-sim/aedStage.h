@@ -35,5 +35,6 @@ class AEDStage: public QObject {
         void connectPads();
         void updateDisplay(QString);
         void updateUIButton(BUTTON);
+        void nextStage();
 };
 #endif
