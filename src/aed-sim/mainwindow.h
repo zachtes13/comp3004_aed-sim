@@ -26,6 +26,7 @@ class MainWindow : public QMainWindow {
         AED *aed;
         Victim *victim;
         QList<QRadioButton*> indicators;
+        QTimer* stageTimer;
         int currentStageIndex;
         void incrementStageSequence();
         void updateIndicators(int);
@@ -49,5 +50,6 @@ class MainWindow : public QMainWindow {
         void updateECGDisplay(HEART_RATE);
         void updateCPRDisplay(CompressionStatus);
         void updateShockCount();
+        void toggleCPR();
 };
 #endif

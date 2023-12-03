@@ -35,6 +35,7 @@ void AnalysisStage::start() {
     }
     updateECGDisplay(victimDiagnosis);
     QThread::sleep(2);
+    nextStage();
 }
 
 HEART_RATE AnalysisStage::diagnoseHeartRate(int heartRate) {

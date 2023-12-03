@@ -12,4 +12,5 @@ void HelpStage::start() {
     QThread::sleep(2);
     qDebug() << "User calls or sends for help.";
     QThread::sleep(2);
+    nextStage();
 }

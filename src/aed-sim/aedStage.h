@@ -7,6 +7,7 @@
 #include <QString>
 #include <QObject>
 #include <QThread>
+#include <QTimer>
 #include <QDebug>
 #include "constants.h"
 #include "victim.h"

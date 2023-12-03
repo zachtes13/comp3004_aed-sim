@@ -30,7 +30,7 @@ void ShockStage::start() {
     else {
         updateDisplay("NO SHOCK DELIVERED.");
     }
-    QThread::sleep(2);
+    nextStage();
 }
 
 void ShockStage::countdown() {
