@@ -25,7 +25,7 @@ void AnalysisStage::start() {
     QThread::sleep(2);
     int victimHeartRate = victim->getHeartRate();
     HEART_RATE victimDiagnosis = diagnoseHeartRate(victimHeartRate);
-    if (victimDiagnosis == BRADYCARDIA || victimDiagnosis == VTACH || victimDiagnosis == VFIB) {
+    if (victimDiagnosis == VTACH || victimDiagnosis == VFIB) {
         victim->setShockable(true);
         updateDisplay("SHOCK ADVISED.");
     }
@@ -38,8 +38,8 @@ void AnalysisStage::start() {
 }
 
 HEART_RATE AnalysisStage::diagnoseHeartRate(int heartRate) {
-    if (heartRate < 60) {
-        return BRADYCARDIA;
+    if (heartRate <= 10) {
+        return ASYSTOLE;
     }
     else if (heartRate >= 150) {
         return VTACH;

@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->applyPediPadzButton, &QPushButton::clicked, this, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyPediPads(victim);});
     connect(ui->applyUpperFrontPadButton, &QPushButton::clicked, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyUpperPad(victim);});
     connect(ui->applyLowerBackPadButton, &QPushButton::clicked, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyLowerPad(victim);});
-
     connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
     connect(aed, &AED::updateCable, this, &MainWindow::updateCable);
@@ -41,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &AEDStage::updateCompressionPicture, this, &MainWindow::updateCPRDisplay);
     connect((ShockStage*)aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &ShockStage::incrementShockCount, this, &MainWindow::updateShockCount);
     connect((ShockStage*)aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &ShockStage::drainBattery, this, &MainWindow::drainBattery);
-
+    connect(aed, &AED::updateStageOrder, this, &MainWindow::updateCurrentStageIndex);
 
     initialize();
 }
@@ -106,24 +105,10 @@ void MainWindow::togglePower() {
             QThread::sleep(1);
             updateTextDisplay("STAY CALM.");
             QThread::sleep(2);
-            incrementStageSequence();
-            incrementStageSequence();
-            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
-//            incrementStageSequence();
+            while (aed->isPoweredOn()) {
+                incrementStageSequence();
+                qDebug("increment");
+            }
         }
     }
     else {
@@ -150,7 +135,6 @@ void MainWindow::updateIndicators(int index) {
     }
 }
 
-// Will keep selecting the next radio button in a clock-wise direction.
 void MainWindow::blinkIndicators() {
     for (int i = 0; i <= indicators.length(); i++) {
         updateIndicators(i);
@@ -185,6 +169,7 @@ void MainWindow::drainBattery() {
             togglePower();
             aed->setStatus(FAIL);
             ui->powerButton->setEnabled(false);
+            aed->setCurrentStage(aed->getStages().at((int)StageOrderInSequence::RESPONSIVENESS_STAGE));
         }
     }
 }
@@ -201,6 +186,10 @@ void MainWindow::replaceBattery() {
     }
 
     qDebug() << "Battery Successfully Replaced.";
+}
+
+void MainWindow::updateCurrentStageIndex(StageOrderInSequence stageIndex) {
+    currentStageIndex = (int)stageIndex;
 }
 
 void MainWindow::incrementStageSequence() {
@@ -261,7 +250,7 @@ void MainWindow::updateECGDisplay(HEART_RATE victimDiagnosis) {
     QPixmap normalECG("../../res/ecg/ecg_normal.jpg");
     QPixmap vtachECG("../../res/ecg/ecg_vtach.jpg");
     QPixmap vfibECG("../../res/ecg/ecg_vfib.jpg");
-    QPixmap bradycardiaECG("../../res/ecg/ecg_bradycardia.jpg");
+    QPixmap asystoleECG("../../res/ecg/ecg_asystole.jpg");
     switch(victimDiagnosis) {
         case BLANK:
             ui->ecgDisplay->setPixmap(blankECG);
@@ -275,8 +264,8 @@ void MainWindow::updateECGDisplay(HEART_RATE victimDiagnosis) {
         case VFIB:
             ui->ecgDisplay->setPixmap(vfibECG);
             break;
-        case BRADYCARDIA:
-            ui->ecgDisplay->setPixmap(bradycardiaECG);
+        case ASYSTOLE:
+            ui->ecgDisplay->setPixmap(asystoleECG);
             break;
     }
     ui->ecgDisplay->setScaledContents(true);

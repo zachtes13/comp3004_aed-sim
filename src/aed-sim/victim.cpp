@@ -4,8 +4,7 @@
 
 Victim::Victim() {
     getHeartRate();
-    isUnconcious = true;
-    isChild = false;    //user will set this.
+    isChild = false;
     shockable = false;
     isUpperPadOn = false;
     isLowerPadOn = false;
@@ -17,10 +16,6 @@ void Victim::setIsChild() {
     isChild = true;
 }
 
-void Victim::receiveShock() {
-    //need to figure out function implementation for this.
-}
-
 void Victim::applyUpperPad() {
     isUpperPadOn = true;
 }
@@ -29,38 +24,14 @@ void Victim::applyLowerPad() {
     isLowerPadOn = true;
 }
 
-void Victim::removeUpperPad() {
-    isUpperPadOn = false;
-}
-
-void Victim::removeLowerPad() {
-    isLowerPadOn = false;
-}
-
-bool Victim::isFlatlined() {
-       if (heartRate == 0) {
-              return true;
-       } else {
-              return false;
-       }
-}
-
 int Victim::getHeartRate() {
     heartRate = QRandomGenerator::global()->bounded(MAXIMUM_HEART_RATE);
     return heartRate;
 }
 
-bool Victim::getUnconcious() {
-    return isUnconcious;
-}
-
 bool Victim::getIsChild() {
     return isChild;
 }
-
-//bool Victim::getPadsOn() {
-//    return padsOn;
-//}
 
 bool Victim::isShockable() {
     return shockable;

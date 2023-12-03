@@ -96,6 +96,7 @@ void AED::setPadsPluggedIn(bool newPadsPluggedIn) {
 
 void AED::togglePower() {
     poweredOn = !poweredOn;
+    currentStage = stages.at((int)StageOrderInSequence::RESPONSIVENESS_STAGE);
 }
 
 void AED::setCurrentStage(AEDStage *newStage) {

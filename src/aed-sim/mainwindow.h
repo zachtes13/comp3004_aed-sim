@@ -31,6 +31,7 @@ class MainWindow : public QMainWindow {
         void updateIndicators(int);
         void triggerAedFailure();
         void clearIndicators();
+        void updateCurrentStageIndex(StageOrderInSequence);
 
     private slots:
         void initialize();

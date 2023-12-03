@@ -18,6 +18,5 @@ class ElectrodeStage : public AEDStage {
 
     signals:
         void connectPads();
-
 };
 #endif
