@@ -33,16 +33,15 @@ AED::~AED() {
 }
 
 bool AED::selfTest() {
-    qDebug("Performing self test...");
-    QThread::sleep(1);
     bool isBatteryInsufficient = batteryLevel < MINIMUM_BATTERY_CAPACITY;
     if (isBatteryInsufficient || !padsPluggedIn) {
         if (isBatteryInsufficient) {
             updateDisplay("CHANGE BATTERIES.");
-            QThread::sleep(2);
-        } else{
+            QThread::sleep(1);
+        }
+        else {
             updateDisplay("PLUG IN CABLE");
-            QThread::sleep(2);
+            QThread::sleep(1);
             updateCable(true);
         }
         setStatus(FAIL);
@@ -97,6 +96,7 @@ void AED::setPadsPluggedIn(bool newPadsPluggedIn) {
 void AED::togglePower() {
     poweredOn = !poweredOn;
     currentStage = stages.at((int)StageOrderInSequence::RESPONSIVENESS_STAGE);
+    shockCount = 0;
 }
 
 void AED::setCurrentStage(AEDStage *newStage) {
@@ -112,10 +112,9 @@ void AED::incrementShockCount() {
     shockCount++;
 }
 
-void AED::connectCable(){
-    qDebug() << "Connecting the cable to the AED device.";
-    QThread::sleep(1);
+void AED::connectCable() {
+    qDebug() << "User reconnects the cable to the AED device.";
     padsPluggedIn = true;
     updateCable(false);
-    qDebug() << "Cable connected.";
+    QThread::sleep(1);
 }

@@ -19,10 +19,15 @@ void CprStage::start() {
     QThread::sleep(1);
 }
 
-QTimer* CprStage::getStartTimer() { return startTimer; }
-QTimer* CprStage::getStopTimer() { return stopTimer; }
+QTimer* CprStage::getStartTimer() {
+    return startTimer;
+}
 
-void CprStage::startCompression(){
+QTimer* CprStage::getStopTimer() {
+    return stopTimer;
+}
+
+void CprStage::startCompression() {
     bool goodOrBadCompressions = QRandomGenerator::global()->generate() % 2 == 0;  //take a random number and modulus two it, basically 50/50 chance for a good or bad compression
     if (goodOrBadCompressions) {
         displayText = "GOOD COMPRESSIONS.";
@@ -56,8 +61,7 @@ void CprStage::stopCompression() {
     updateDisplay(displayText);
     qDebug() << "User stops doing chest compressions on victim.";
     updateCompressionPicture(CompressionStatus::NO_COMPRESSIONS);
-
-    displayText = "START CPR."; //reset the displayText to the original for when cprStage is called again.
+    displayText = "START CPR.";
     QThread::sleep(2);
     nextStage();
 }

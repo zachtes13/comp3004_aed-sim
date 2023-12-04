@@ -24,6 +24,14 @@ void Victim::applyLowerPad() {
     isLowerPadOn = true;
 }
 
+void Victim::removeUpperPad() {
+    isUpperPadOn = false;
+}
+
+void Victim::removeLowerPad() {
+    isLowerPadOn = false;
+}
+
 int Victim::getHeartRate() {
     heartRate = QRandomGenerator::global()->bounded(MAXIMUM_HEART_RATE);
     return heartRate;
@@ -41,11 +49,11 @@ void Victim::setShockable(bool shockableState) {
     shockable = shockableState;
 }
 
-bool Victim::getIsLarge(){
+bool Victim::getIsLarge() {
     return isLarge;
 }
 
-bool Victim::getHasPacemaker(){
+bool Victim::getHasPacemaker() {
     return hasPacemaker;
 }
 

@@ -13,7 +13,6 @@ AnalysisStage::~AnalysisStage() { }
 
 void AnalysisStage::start() {
     updateDisplay(displayText);
-    qDebug() << "AED performs analysis.";
     QThread::sleep(2);
     bool isAnalysisInterrupt = QRandomGenerator::global()->generate() % 2 == 1;
     while (isAnalysisInterrupt) {
