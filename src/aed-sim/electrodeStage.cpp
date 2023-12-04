@@ -16,11 +16,11 @@ void ElectrodeStage::applyCprPads(){
     updateDisplay("ADULT PADS.");
 
     qDebug() << "User uses the scissors to cut open the victim's shirt.";
-    QThread::sleep(3/2);
+    QThread::sleep(2);
     qDebug() << "User checkes if the victim is dry.";
-    QThread::sleep(3/2);
+    QThread::sleep(2);
     qDebug() << "User unpacks and unfolds the CPR-D-padz";
-    QThread::sleep(3/2);
+    QThread::sleep(2);
     qDebug() << "User places sensor in the middle of victims breastbone.";
 
     updateButtonStatus(CPR);

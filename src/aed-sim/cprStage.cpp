@@ -17,17 +17,10 @@ CprStage::~CprStage() { }
 void CprStage::start() {
     updateDisplay(displayText);
     QThread::sleep(1);
-
-//    qDebug() << "User begins chest compressions on victim.";
-//    QThread::sleep(1);
-
-//    displayText = "CONTINUE CPR.";
-//    updateDisplay(displayText);
-//    QThread::sleep(1);
 }
 
-QTimer* CprStage::getStartTimer(){return startTimer;}
-QTimer* CprStage::getStopTimer(){return stopTimer;}
+QTimer* CprStage::getStartTimer() { return startTimer; }
+QTimer* CprStage::getStopTimer() { return stopTimer; }
 
 void CprStage::startCompression(){
     int goodOrBadCompressions = QRandomGenerator::global()->generate() % 2; //take a random number and modulus two it, basically 50/50 chance for a good or bad compression
@@ -37,20 +30,30 @@ void CprStage::startCompression(){
         updateDisplay(displayText);
         //also update ui chest compressions stuff.
         updateCompressionPicture(CompressionStatus::GOOD_COMPRESSIONS);
-    } else {
-        displayText = "PUSH HARDER.";
-        qDebug() << "User is performing chest compressions below 2 inches deep on victim.";
-        updateDisplay(displayText);
-        updateCompressionPicture(CompressionStatus::BAD_COMPRESSIONS);
     }
-    if(!stopTimer->isActive()){
+    else {
+        bool continueCompressions = QRandomGenerator::global()->generate() % 2 == 0;
+        if (continueCompressions) {
+                displayText = "CONTINUE CPR.";
+                updateDisplay(displayText);
+                QThread::sleep(1);
+        }
+        else {
+            displayText = "PUSH HARDER.";
+            qDebug() << "User is performing chest compressions below 2 inches deep on victim.";
+            updateDisplay(displayText);
+            updateCompressionPicture(CompressionStatus::BAD_COMPRESSIONS);
+        }
+    }
+    if (!stopTimer->isActive()) {
         stopTimer->start(30000);
     }
 }
 
-void CprStage::stopCompression(){
-    displayText = "STOP CPR.";
+void CprStage::stopCompression() {
+    startTimer->stop();
     stopTimer->stop();
+    displayText = "STOP CPR.";
     updateDisplay(displayText);
     qDebug() << "User stops doing chest compressions on victim.";
     updateCompressionPicture(CompressionStatus::NO_COMPRESSIONS);

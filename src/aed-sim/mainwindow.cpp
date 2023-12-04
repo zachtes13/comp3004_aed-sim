@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->applyPediPadzButton, &QPushButton::clicked, this, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyPediPads(victim);});
     connect(ui->applyUpperFrontPadButton, &QPushButton::clicked, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyUpperPad(victim);});
     connect(ui->applyLowerBackPadButton, &QPushButton::clicked, [this](){dynamic_cast<ElectrodeStage*>(aed->getStages().at((int)StageOrderInSequence::ELECTRODE_STAGE))->applyLowerPad(victim);});
-    connect(ui->toggleCprButton, &QPushButton::clicked, this, &MainWindow::toggleCPR);
+    connect(ui->toggleCprButton, &QPushButton::clicked, this, &MainWindow::startCPR);
     connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
     connect(aed, &AED::updateStatusDisplay, this, &MainWindow::updateStatusDisplay);
     connect(aed, &AED::updateCable, this, &MainWindow::updateCable);
@@ -48,7 +48,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &AEDStage::updateCompressionPicture, this, &MainWindow::updateCPRDisplay);
     connect((ShockStage*)aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &ShockStage::incrementShockCount, this, &MainWindow::updateShockCount);
     connect((ShockStage*)aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &ShockStage::drainBattery, this, &MainWindow::drainBattery);
-    connect(ui->checkResponsivenessButton, &QPushButton::clicked, this, &MainWindow::incrementStageSequence);
     connect(aed, &AED::updateStageOrder, this, &MainWindow::updateCurrentStageIndex);
 
     initialize();
@@ -89,6 +88,7 @@ void MainWindow::initialize() {
     ui->connectCableButton->setEnabled(false);
     ui->applyUpperFrontPadButton->setEnabled(false);
     ui->applyLowerBackPadButton->setEnabled(false);
+    ui->toggleCprButton->setEnabled(false);
 
     updateECGDisplay(BLANK);
     ui->battery->setText("");
@@ -115,11 +115,12 @@ void MainWindow::togglePower() {
             if (victim->getIsUpperPadOn() && victim->getIsUpperPadOn()){
                 currentStageIndex = (int)StageOrderInSequence::ELECTRODE_STAGE;
                 incrementStageSequence();
-            }else {
+            }
+            else {
                 updateTextDisplay("STAY CALM.");
                 QThread::sleep(2);
                 updateIndicators(0);
-                updateTextDisplay("CHECK RESPONSIVENESS.");
+                incrementStageSequence();
             }
         }
     }
@@ -129,7 +130,7 @@ void MainWindow::togglePower() {
         ui->battery->setText("");
         updateCPRDisplay(CompressionStatus::NO_COMPRESSIONS);
         aed->togglePower();
-        toggleCPR();
+
         QThread::sleep(1);
         updateTextDisplay("");
         updateECGDisplay(BLANK);
@@ -180,6 +181,7 @@ void MainWindow::drainBattery() {
 
         if (aed->getBatteryLevel() < 1) {
             togglePower();
+            stopCPR();
             aed->setStatus(FAIL);
             ui->powerButton->setEnabled(false);
             aed->setCurrentStage(aed->getStages().at((int)StageOrderInSequence::RESPONSIVENESS_STAGE));
@@ -214,6 +216,9 @@ void MainWindow::incrementStageSequence() {
             indicators.at((int)StageOrderInSequence::CPR_STAGE)->setChecked(false);
             indicators.at((int)StageOrderInSequence::CPR_STAGE)->repaint();
         }
+        if (currentStageIndex == (int)StageOrderInSequence::CPR_STAGE) {
+            ui->toggleCprButton->setEnabled(true);
+        }
         aed->setCurrentStage(aed->getStages().at(currentStageIndex));
         updateIndicators(currentStageIndex);
         aed->getCurrentStage()->start();
@@ -224,7 +229,6 @@ void MainWindow::victimAwakensOrHelpArrived() {
     if (aed->isPoweredOn()) {
         qDebug() << "The victim has awoken or help has arrived!";
         togglePower();
-
         ui->applyCprPadzButton->setEnabled(true);
         ui->applyPediPadzButton->setEnabled(true);
         ui->applyUpperFrontPadButton->setEnabled(false);
@@ -333,19 +337,22 @@ void MainWindow::updateCable(bool isEnabled){
     ui->connectCableButton->setEnabled(isEnabled);
 }
 
-void MainWindow::toggleCPR(){
+void MainWindow::startCPR(){
     CprStage* cprStage = dynamic_cast<CprStage*>(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE));
+    QTimer* startTimer = cprStage->getStartTimer();
 
-    if (aed->isPoweredOn() || aed->getBatteryLevel() < 1) {
-        QTimer* startTimer = cprStage->getStartTimer();
-        QTimer* stopTimer = cprStage->getStopTimer();
+    startTimer->start(2000);
+    ui->toggleCprButton->setEnabled(false);
+}
 
-        if (startTimer->isActive()) {
-            startTimer->stop();
-            stopTimer->stop();
-            cprStage->stopCompression();
-        } else if (aed->isPoweredOn()) {
-            startTimer->start(2000);
-        }
-    }
+void MainWindow::stopCPR() {
+    CprStage* cprStage = dynamic_cast<CprStage*>(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE));
+    QTimer* startTimer = cprStage->getStartTimer();
+    QTimer* stopTimer = cprStage->getStopTimer();
+
+    startTimer->stop();
+    stopTimer->stop();
+    cprStage->stopCompression();
+    updateTextDisplay("");
+    ui->toggleCprButton->setEnabled(false);
 }

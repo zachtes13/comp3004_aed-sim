@@ -24,6 +24,7 @@ void ShockStage::start() {
         }
         countdown();
         updateDisplay("SHOCK DELIVERED.");
+        QThread::sleep(2);
         incrementShockCount();
         drainBattery();
     }
