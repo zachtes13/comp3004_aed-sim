@@ -185,6 +185,7 @@ void MainWindow::drainBattery() {
             aed->setStatus(FAIL);
             ui->powerButton->setEnabled(false);
             aed->setCurrentStage(aed->getStages().at((int)StageOrderInSequence::RESPONSIVENESS_STAGE));
+            triggerAedFailure();
         }
     }
 }
@@ -229,6 +230,7 @@ void MainWindow::victimAwakensOrHelpArrived() {
     if (aed->isPoweredOn()) {
         qDebug() << "The victim has awoken or help has arrived!";
         togglePower();
+        stopCPR();
         ui->applyCprPadzButton->setEnabled(true);
         ui->applyPediPadzButton->setEnabled(true);
         ui->applyUpperFrontPadButton->setEnabled(false);

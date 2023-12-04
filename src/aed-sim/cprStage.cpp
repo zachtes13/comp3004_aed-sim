@@ -23,12 +23,11 @@ QTimer* CprStage::getStartTimer() { return startTimer; }
 QTimer* CprStage::getStopTimer() { return stopTimer; }
 
 void CprStage::startCompression(){
-    int goodOrBadCompressions = QRandomGenerator::global()->generate() % 2; //take a random number and modulus two it, basically 50/50 chance for a good or bad compression
-    if (goodOrBadCompressions == 0) {
+    bool goodOrBadCompressions = QRandomGenerator::global()->generate() % 2 == 0;  //take a random number and modulus two it, basically 50/50 chance for a good or bad compression
+    if (goodOrBadCompressions) {
         displayText = "GOOD COMPRESSIONS.";
         qDebug() << "User is performing chest compressions at least 2 inches deep on victim.";
         updateDisplay(displayText);
-        //also update ui chest compressions stuff.
         updateCompressionPicture(CompressionStatus::GOOD_COMPRESSIONS);
     }
     else {
