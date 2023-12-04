@@ -22,6 +22,7 @@ class Victim {
         bool getHasPacemaker();
         bool getIsUpperPadOn();
         bool getIsLowerPadOn();
+        bool getUnconscious();
         bool isShockable();
         void setShockable(bool);
 

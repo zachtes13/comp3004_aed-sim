@@ -9,5 +9,9 @@ class HelpStage : public AEDStage {
         HelpStage();
         ~HelpStage();
         void start();
+        void getHelp();
+
+    private:
+        QTimer* stageTimer;
 };
 #endif

@@ -8,5 +8,9 @@ class ResponsivenessStage : public AEDStage {
         ResponsivenessStage();
         ~ResponsivenessStage();
         void start();
+        void checkResponsiveness();
+
+    private:
+        QTimer* stageTimer;
 };
 #endif

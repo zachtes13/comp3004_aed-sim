@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>961</width>
-    <height>815</height>
+    <height>775</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -496,7 +496,7 @@ width: 1000px;
       <x>20</x>
       <y>650</y>
       <width>81</width>
-      <height>61</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -529,7 +529,7 @@ width: 1000px;
     <property name="geometry">
      <rect>
       <x>630</x>
-      <y>700</y>
+      <y>690</y>
       <width>161</width>
       <height>41</height>
      </rect>
@@ -542,7 +542,7 @@ width: 1000px;
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>650</y>
+      <y>640</y>
       <width>141</width>
       <height>41</height>
      </rect>
@@ -555,7 +555,7 @@ width: 1000px;
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>700</y>
+      <y>690</y>
       <width>141</width>
       <height>41</height>
      </rect>
@@ -564,24 +564,11 @@ width: 1000px;
      <string>Apply Pedi-padz II</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="checkResponsivenessButton">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>650</y>
-      <width>211</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Check Responsiveness</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="connectCableButton">
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>730</y>
+      <y>690</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -593,21 +580,21 @@ width: 1000px;
    <widget class="QPushButton" name="toggleCprButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>630</y>
-      <width>121</width>
+      <x>250</x>
+      <y>640</y>
+      <width>211</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Toggle CPR</string>
+     <string>Start CPR</string>
     </property>
    </widget>
    <widget class="QPushButton" name="applyUpperFrontPadButton">
     <property name="geometry">
      <rect>
       <x>630</x>
-      <y>650</y>
+      <y>640</y>
       <width>161</width>
       <height>41</height>
      </rect>
@@ -620,7 +607,7 @@ width: 1000px;
     <property name="geometry">
      <rect>
       <x>800</x>
-      <y>660</y>
+      <y>650</y>
       <width>141</width>
       <height>71</height>
      </rect>
@@ -633,7 +620,7 @@ width: 1000px;
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>680</y>
+      <y>640</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -646,7 +633,7 @@ width: 1000px;
     <property name="geometry">
      <rect>
       <x>250</x>
-      <y>700</y>
+      <y>690</y>
       <width>211</width>
       <height>41</height>
      </rect>

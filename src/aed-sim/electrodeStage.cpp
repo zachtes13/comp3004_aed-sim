@@ -10,8 +10,6 @@ ElectrodeStage::~ElectrodeStage() { }
 void ElectrodeStage::start() {
     updateDisplay(displayText);
     QThread::sleep(2);
-    qDebug() << "User applies electrodes.";
-    QThread::sleep(2);
 }
 
 void ElectrodeStage::applyCprPads(){
@@ -66,7 +64,7 @@ void ElectrodeStage::applyUpperPad(Victim* victim){
         }
         qDebug() << "User presses down the CPR sensor with right hand to adhere electrode to skin, pulling the number 2 tab to peel back protective backing.";
         QThread::sleep(2);
-        qDebug() << "User presses down the electrode from the center out.";
+        qDebug() << "User presses down the upper electrode from the center out.";
     }
 
     updateButtonStatus(UPPER);
@@ -97,9 +95,9 @@ void ElectrodeStage::applyLowerPad(Victim* victim){
             qDebug() << "User places the pad slightly to the victim's left and below their left breast.";
             QThread::sleep(2);
         }
-        qDebug() << "User presses down the CPR sensor with right hand to adhere electrode to skin, pulling the number 2 tab to peel back protective backing.";
+        qDebug() << "User presses down the CPR sensor with right hand to adhere electrode to skin, pulling the number 3 tab to peel back protective backing.";
         QThread::sleep(2);
-        qDebug() << "User presses the the electrode from the center out.";
+        qDebug() << "User presses the the lower electrode from the center out.";
     }
 
     updateButtonStatus(LOWER);

@@ -24,13 +24,14 @@ void ShockStage::start() {
         }
         countdown();
         updateDisplay("SHOCK DELIVERED.");
+        QThread::sleep(2);
         incrementShockCount();
         drainBattery();
     }
     else {
         updateDisplay("NO SHOCK DELIVERED.");
     }
-    QThread::sleep(2);
+    nextStage();
 }
 
 void ShockStage::countdown() {

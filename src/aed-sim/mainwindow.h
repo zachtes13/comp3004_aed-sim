@@ -49,5 +49,7 @@ class MainWindow : public QMainWindow {
         void updateECGDisplay(HEART_RATE);
         void updateCPRDisplay(CompressionStatus);
         void updateShockCount();
+        void startCPR();
+        void stopCPR();
 };
 #endif
