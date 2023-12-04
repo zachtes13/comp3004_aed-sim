@@ -60,8 +60,6 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::initialize() {
-    qDebug() << "Initializing";
-
     for (QObject *widget : ui->frame->children()) {
        if (QRadioButton *indicator = qobject_cast<QRadioButton*>(widget)) {
            indicator->raise();
@@ -69,7 +67,6 @@ void MainWindow::initialize() {
        }
     }
 
-    // Load images
     QPixmap isOkayImage("../../res/stages/isOkayImage.png");
     QPixmap helpImage("../../res/stages/callForHelpImage.png");
     QPixmap electrodeImage("../../res/stages/attachElectrodeImage.png");
@@ -94,7 +91,6 @@ void MainWindow::initialize() {
     ui->battery->setText("");
     updateCPRDisplay(CompressionStatus::NO_COMPRESSIONS);
 
-    //Timer code, every 5 seconds call drainBattery() function.
     QTimer* batteryTimer = new QTimer();
     connect(batteryTimer, &QTimer::timeout, this, &MainWindow::drainBattery);
     batteryTimer->start(5000);
@@ -104,7 +100,6 @@ void MainWindow::togglePower() {
     if (!aed->isPoweredOn()) {
         bool isSelfTestPassed = aed->selfTest();
         if (isSelfTestPassed) {
-            qDebug() << "Powering On";
             updateTextDisplay("POWER ON.");
             QString batteryText = QString::number(aed->getBatteryLevel());
             ui->battery->setText("Battery: " + batteryText + "%");
@@ -125,13 +120,19 @@ void MainWindow::togglePower() {
         }
     }
     else {
-        qDebug() << "Powering Off";
         updateTextDisplay("POWER OFF.");
         ui->battery->setText("");
         updateCPRDisplay(CompressionStatus::NO_COMPRESSIONS);
         aed->togglePower();
-
-        QThread::sleep(1);
+        ui->shockCountEdit->setText(QString::number(aed->getShockCount()));
+        ui->shockCountEdit->repaint();
+        currentStageIndex = -1;
+        victim->removeUpperPad();
+        victim->removeLowerPad();
+        ui->applyCprPadzButton->setEnabled(true);
+        ui->applyPediPadzButton->setEnabled(true);
+        ui->applyUpperFrontPadButton->setEnabled(false);
+        ui->applyLowerBackPadButton->setEnabled(false);
         updateTextDisplay("");
         updateECGDisplay(BLANK);
         clearIndicators();
@@ -152,7 +153,7 @@ void MainWindow::updateIndicators(int index) {
 void MainWindow::blinkIndicators() {
     for (int i = 0; i <= indicators.length(); i++) {
         updateIndicators(i);
-        QThread::msleep(700);
+        QThread::msleep(400);
     }
 }
 
@@ -178,30 +179,24 @@ void MainWindow::drainBattery() {
     if (aed->isPoweredOn()) {
         aed->drainBattery();
         updateBatteryDisplay();
-
         if (aed->getBatteryLevel() < 1) {
             togglePower();
             stopCPR();
             aed->setStatus(FAIL);
             ui->powerButton->setEnabled(false);
-            aed->setCurrentStage(aed->getStages().at((int)StageOrderInSequence::RESPONSIVENESS_STAGE));
             triggerAedFailure();
         }
     }
 }
 
 void MainWindow::replaceBattery() {
-    qDebug() << "Replacing Battery...";
+    qDebug() << "User replaces all batteries.";
     aed->setBatteryLevel(100);
     ui->powerButton->setEnabled(true);
-
     QThread::sleep(1);
-
     if (aed->isPoweredOn()) {
         updateBatteryDisplay();
     }
-
-    qDebug() << "Battery Successfully Replaced.";
 }
 
 void MainWindow::updateCurrentStageIndex(StageOrderInSequence stageIndex) {
@@ -209,10 +204,10 @@ void MainWindow::updateCurrentStageIndex(StageOrderInSequence stageIndex) {
 }
 
 void MainWindow::incrementStageSequence() {
-    if(aed->isPoweredOn()){
+    if (aed->isPoweredOn()) {
         drainBattery();
         ++currentStageIndex;
-        if (ui->textDisplay->toPlainText() == "STOP CPR.") {
+        if (aed->getCurrentStage()->getOrderInSequence() == StageOrderInSequence::CPR_STAGE) {
             currentStageIndex = (int)StageOrderInSequence::ANALYSIS_STAGE;
             indicators.at((int)StageOrderInSequence::CPR_STAGE)->setChecked(false);
             indicators.at((int)StageOrderInSequence::CPR_STAGE)->repaint();
@@ -229,17 +224,15 @@ void MainWindow::incrementStageSequence() {
 void MainWindow::victimAwakensOrHelpArrived() {
     if (aed->isPoweredOn()) {
         qDebug() << "The victim has awoken or help has arrived!";
+        if (aed->getCurrentStage()->getOrderInSequence() == StageOrderInSequence::CPR_STAGE) {
+            stopCPR();
+        }
         togglePower();
-        stopCPR();
-        ui->applyCprPadzButton->setEnabled(true);
-        ui->applyPediPadzButton->setEnabled(true);
-        ui->applyUpperFrontPadButton->setEnabled(false);
-        ui->applyLowerBackPadButton->setEnabled(false);
     }
 }
 
-void MainWindow::connectPads(){
-    qDebug() << "Connecting the pads to the AED device.";
+void MainWindow::connectPads() {
+    qDebug() << "User connects the pads to the AED device.";
     aed->setPadsPluggedIn(true);
 }
 
@@ -247,7 +240,7 @@ void MainWindow::updateStatusDisplay(STATUS newStatus) {
     if (newStatus == PASS) {
         ui->statusDisplay->setStyleSheet("background-color: #35B235;");
         updateTextDisplay("UNIT OK.");
-        QThread::sleep(2);
+        QThread::sleep(1);
     }
     else if (newStatus == FAIL) {
         ui->statusDisplay->setStyleSheet("background-color: #D84141;");
@@ -295,17 +288,14 @@ void MainWindow::updateECGDisplay(HEART_RATE victimDiagnosis) {
 
 void MainWindow::updateCPRDisplay(CompressionStatus compressionValue) {
     if (compressionValue == CompressionStatus::GOOD_COMPRESSIONS) {
-        //GOOD COMPRESSIONS DISPLAY
         ui->compressionLabel1->setStyleSheet("background-color: black");
         ui->compressionLabel2->setStyleSheet("background-color: black");
         ui->compressionLabel3->setStyleSheet("background-color: black; border-top: 1px solid white;");
     } else if (compressionValue == CompressionStatus::BAD_COMPRESSIONS) {
-        //BAD COMPRESSIONS DISPLAY
         ui->compressionLabel1->setStyleSheet("background-color: black");
         ui->compressionLabel2->setStyleSheet("background-color: white");
         ui->compressionLabel3->setStyleSheet("background-color: white; border-top: 1px solid black; border-bottom: 1px solid black;");
     } else {
-        //NO COMPRESSIONS DISPLAY
         ui->compressionLabel1->setStyleSheet("background-color: white");
         ui->compressionLabel2->setStyleSheet("background-color: white");
         ui->compressionLabel3->setStyleSheet("background-color: white; border-top: 1px solid black; border-bottom: 1px solid black;");
@@ -323,26 +313,28 @@ void MainWindow::updateShockCount() {
     updateTextDisplay(QString::number(aed->getShockCount()) + " SHOCK(S) DELIVERED.");
 }
 
-void MainWindow::updateButtonStatus(BUTTON button){
-    if(button == CPR){
+void MainWindow::updateButtonStatus(BUTTON button) {
+    if (button == CPR) {
         ui->applyCprPadzButton->setEnabled(false);
-    }else if(button == PEDI){
+    }
+    else if (button == PEDI) {
         ui->applyPediPadzButton->setEnabled(false);
-    }else if(button == UPPER){
+    }
+    else if (button == UPPER) {
         ui->applyUpperFrontPadButton->setEnabled(!ui->applyUpperFrontPadButton->isEnabled());
-    }else if(button == LOWER){
+    }
+    else if (button == LOWER) {
         ui->applyLowerBackPadButton->setEnabled(!ui->applyLowerBackPadButton->isEnabled());
     }
 }
 
-void MainWindow::updateCable(bool isEnabled){
+void MainWindow::updateCable(bool isEnabled) {
     ui->connectCableButton->setEnabled(isEnabled);
 }
 
-void MainWindow::startCPR(){
+void MainWindow::startCPR() {
     CprStage* cprStage = dynamic_cast<CprStage*>(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE));
     QTimer* startTimer = cprStage->getStartTimer();
-
     startTimer->start(2000);
     ui->toggleCprButton->setEnabled(false);
 }
@@ -351,10 +343,8 @@ void MainWindow::stopCPR() {
     CprStage* cprStage = dynamic_cast<CprStage*>(aed->getStages().at((int)StageOrderInSequence::CPR_STAGE));
     QTimer* startTimer = cprStage->getStartTimer();
     QTimer* stopTimer = cprStage->getStopTimer();
-
     startTimer->stop();
     stopTimer->stop();
-    cprStage->stopCompression();
     updateTextDisplay("");
     ui->toggleCprButton->setEnabled(false);
 }

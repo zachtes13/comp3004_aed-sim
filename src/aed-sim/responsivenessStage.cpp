@@ -18,7 +18,7 @@ void ResponsivenessStage::start() {
 void ResponsivenessStage::checkResponsiveness() {
     stageTimer->stop();
     qDebug() << "User checks victim's responsiveness.";
+    qDebug() << "User determines victim is unresponsive.";
     QThread::sleep(1);
-    qDebug() << "VICTIM IS UNRESPONSIVE.";
     nextStage();
 }
