@@ -101,22 +101,6 @@ width: 1000px;
       </rect>
      </property>
     </widget>
-    <widget class="QTimeEdit" name="time">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>560</x>
-       <y>120</y>
-       <width>91</width>
-       <height>26</height>
-      </rect>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QRadioButton" name="connectDevice">
      <property name="enabled">
       <bool>false</bool>
@@ -487,6 +471,19 @@ width: 1000px;
      </property>
      <property name="text">
       <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="elapsedTimeDisplay">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>120</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>00:00:00</string>
      </property>
     </widget>
    </widget>
