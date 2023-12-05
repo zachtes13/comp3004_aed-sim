@@ -1,4 +1,5 @@
 #include <QRandomGenerator>
+#include <QDateTime>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "constants.h"
@@ -15,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
     victim = new Victim();
     aed = new AED(victim);
     currentStageIndex = -1;
+    timer = new QTimer();
+    timer->setInterval(1000);
+    elapsedTimer = new QElapsedTimer();
 
     connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::togglePower);
     connect(aed, &AED::updateDisplay, this, &MainWindow::updateTextDisplay);
@@ -49,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect((ShockStage*)aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &ShockStage::incrementShockCount, this, &MainWindow::updateShockCount);
     connect((ShockStage*)aed->getStages().at((int)StageOrderInSequence::SHOCK_STAGE), &ShockStage::drainBattery, this, &MainWindow::drainBattery);
     connect(aed, &AED::updateStageOrder, this, &MainWindow::updateCurrentStageIndex);
+    connect(timer, &QTimer::timeout, this, &MainWindow::updateElapsedTime);
 
     initialize();
 }
@@ -103,6 +108,8 @@ void MainWindow::togglePower() {
             updateTextDisplay("POWER ON.");
             QString batteryText = QString::number(aed->getBatteryLevel());
             ui->battery->setText("Battery: " + batteryText + "%");
+            timer->start();
+            elapsedTimer->restart();
             updateCPRDisplay(CompressionStatus::NO_COMPRESSIONS);
             aed->togglePower();
             blinkIndicators();
@@ -123,16 +130,12 @@ void MainWindow::togglePower() {
         updateTextDisplay("POWER OFF.");
         ui->battery->setText("");
         updateCPRDisplay(CompressionStatus::NO_COMPRESSIONS);
+        timer->stop();
+        ui->elapsedTimeDisplay->setText("00:00:00");
         aed->togglePower();
         ui->shockCountEdit->setText(QString::number(aed->getShockCount()));
         ui->shockCountEdit->repaint();
         currentStageIndex = -1;
-        victim->removeUpperPad();
-        victim->removeLowerPad();
-        ui->applyCprPadzButton->setEnabled(true);
-        ui->applyPediPadzButton->setEnabled(true);
-        ui->applyUpperFrontPadButton->setEnabled(false);
-        ui->applyLowerBackPadButton->setEnabled(false);
         updateTextDisplay("");
         updateECGDisplay(BLANK);
         clearIndicators();
@@ -227,6 +230,12 @@ void MainWindow::victimAwakensOrHelpArrived() {
         if (aed->getCurrentStage()->getOrderInSequence() == StageOrderInSequence::CPR_STAGE) {
             stopCPR();
         }
+        victim->removeUpperPad();
+        victim->removeLowerPad();
+        ui->applyCprPadzButton->setEnabled(true);
+        ui->applyPediPadzButton->setEnabled(true);
+        ui->applyUpperFrontPadButton->setEnabled(false);
+        ui->applyLowerBackPadButton->setEnabled(false);
         togglePower();
     }
 }
@@ -347,4 +356,9 @@ void MainWindow::stopCPR() {
     stopTimer->stop();
     updateTextDisplay("");
     ui->toggleCprButton->setEnabled(false);
+}
+
+void MainWindow::updateElapsedTime() {
+    int elapsedMilliseconds = elapsedTimer->elapsed();
+    ui->elapsedTimeDisplay->setText(QTime::fromMSecsSinceStartOfDay(elapsedMilliseconds).toString("hh:mm:ss"));
 }

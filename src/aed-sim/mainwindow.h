@@ -27,6 +27,8 @@ class MainWindow : public QMainWindow {
         Victim *victim;
         QList<QRadioButton*> indicators;
         int currentStageIndex;
+        QTimer *timer;
+        QElapsedTimer *elapsedTimer;
         void incrementStageSequence();
         void updateIndicators(int);
         void triggerAedFailure();
@@ -51,5 +53,6 @@ class MainWindow : public QMainWindow {
         void updateShockCount();
         void startCPR();
         void stopCPR();
+        void updateElapsedTime();
 };
 #endif
