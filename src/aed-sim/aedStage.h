@@ -14,6 +14,21 @@
 
 using namespace std;
 
+/* Class Purpose: The parent class of all AED stages, contains function definitions and variables that all AED stages will use
+*
+* Data members:
+* - QString displayText: holds the text of what is to be displayed on the AED UI
+* - StageOrderInSequence orderInSequence: stores the order that the stage is in
+*
+* Class functions:
+* - void start(): The sequential walkthrough of an AEDStage of the AED.
+* - StageOrderInSequence getOrderInSequence: A getter for the orderInSequence variable.
+* - void updateDisplay(QString): A signal to the mainwindow to update the text display based on the QString passed in (the displayText variable is passed in).
+* - void updateCompressionPicture(CompressionStatus):
+* - void updateButtonStatus(BUTTON):
+* - void nextStage(): A signal to the mainwindow to switch the stage.
+*/
+
 class AEDStage: public QObject {
     Q_OBJECT
 
