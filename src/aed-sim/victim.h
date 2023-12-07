@@ -19,7 +19,6 @@ using namespace std;
 * - bool isUpperPadOn: whether the victim has the upper pads on or not
 * - bool isLowerPadOn: whether the victim has the lower pads on or not
 *
-*
 * Class Functions:
 * - void setIsChild(): set whether the victim is a child or not
 * - void applyUpperPad(): apply the upper pad to the victim
