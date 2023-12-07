@@ -24,8 +24,8 @@ using namespace std;
 * - void start(): The sequential walkthrough of an AEDStage of the AED.
 * - StageOrderInSequence getOrderInSequence: A getter for the orderInSequence variable.
 * - void updateDisplay(QString): A signal to the mainwindow to update the text display based on the QString passed in (the displayText variable is passed in).
-* - void updateCompressionPicture(CompressionStatus):
-* - void updateButtonStatus(BUTTON):
+* - void updateCompressionPicture(CompressionStatus): update the compression picture
+* - void updateButtonStatus(BUTTON): update the status of the button
 * - void nextStage(): A signal to the mainwindow to switch the stage.
 */
 
