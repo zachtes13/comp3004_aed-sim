@@ -1,5 +1,6 @@
 #include <QRandomGenerator>
 #include "cprStage.h"
+#include "constants.h"
 
 CprStage::CprStage() {
     displayText = "START CPR.";
@@ -29,6 +30,16 @@ QTimer* CprStage::getStopTimer() {
 
 void CprStage::startCompression() {
     bool goodOrBadCompressions = QRandomGenerator::global()->generate() % 2 == 0;  //take a random number and modulus two it, basically 50/50 chance for a good or bad compression
+    bool isConnectionLost = QRandomGenerator::global()->generate() % 100 < 3;
+    if (isConnectionLost) {
+        updateDisplay("CHECK ELECTRODE PADS.");
+        updateCompressionPicture(CompressionStatus::NO_COMPRESSIONS);
+        QThread::sleep(2);
+        connectionFailed(FAIL);
+        updateCable(false);
+        displayText = "START CPR.";
+        return;
+    }
     if (goodOrBadCompressions) {
         displayText = "GOOD COMPRESSIONS.";
         qDebug() << "User is performing chest compressions at least 2 inches deep on victim.";

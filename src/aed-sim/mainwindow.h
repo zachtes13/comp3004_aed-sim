@@ -77,7 +77,7 @@ class MainWindow : public QMainWindow {
         void blinkIndicators();
         void connectPads();
         void updateButtonStatus(BUTTON);
-        void updateCable(bool);
+        void updateConnection(bool);
         void updateTextDisplay(QString);
         void updateBatteryDisplay();
         void drainBattery();

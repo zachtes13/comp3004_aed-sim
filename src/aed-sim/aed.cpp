@@ -42,14 +42,14 @@ bool AED::selfTest() {
         else {
             updateDisplay("PLUG IN CABLE");
             QThread::sleep(1);
-            updateCable(true);
+            updateCable(false);
         }
-        setStatus(FAIL);
+        updateStatusDisplay(FAIL);
         QThread::sleep(1);
         return false;
     }
     QThread::sleep(1);
-    setStatus(PASS);
+    updateStatusDisplay(PASS);
     return true;
 }
 
@@ -105,7 +105,6 @@ void AED::setCurrentStage(AEDStage *newStage) {
 
 void AED::setStatus(STATUS newStatus) {
     status = newStatus;
-    updateStatusDisplay(newStatus);
 }
 
 void AED::incrementShockCount() {
@@ -115,6 +114,6 @@ void AED::incrementShockCount() {
 void AED::connectCable() {
     qDebug() << "User reconnects the cable to the AED device.";
     padsPluggedIn = true;
-    updateCable(false);
+    updateCable(true);
     QThread::sleep(1);
 }
