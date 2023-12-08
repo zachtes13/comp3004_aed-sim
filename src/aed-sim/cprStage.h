@@ -18,6 +18,8 @@
 */
 
 class CprStage : public AEDStage {
+    Q_OBJECT
+
     public:
         CprStage();
         ~CprStage();
@@ -32,5 +34,9 @@ class CprStage : public AEDStage {
     private:
         QTimer* startTimer;
         QTimer* stopTimer;
+
+    signals:
+        void connectionFailed(STATUS);
+        void updateElectrodes(bool);
 };
 #endif

@@ -35,7 +35,7 @@ QT_END_NAMESPACE
 * - void blinkIndicators(): blinks the stage indicators
 * - void connectPads(): simulates the user connecting the pads to the victim
 * - void updateButtonStatus(BUTTON): enables and disables certain buttons
-* - void updateCable(bool): simulates plugging in the cable of the AED
+* - void updateConnection(bool): simulates fixing cable and electrode connection to AED
 * - void updateTextDisplay(QString): updates the display with the QString that is passed in
 * - void updateBatteryDisplay(): updates the battery display in the UI
 * - void drainBattery(): drains the battery and updates the battery of the UI
@@ -77,7 +77,7 @@ class MainWindow : public QMainWindow {
         void blinkIndicators();
         void connectPads();
         void updateButtonStatus(BUTTON);
-        void updateCable(bool);
+        void updateConnection(bool);
         void updateTextDisplay(QString);
         void updateBatteryDisplay();
         void drainBattery();

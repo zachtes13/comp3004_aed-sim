@@ -251,7 +251,7 @@ width: 1000px;
       </rect>
      </property>
      <property name="text">
-      <string>00</string>
+      <string>0</string>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -561,7 +561,7 @@ width: 1000px;
      <string>Apply Pedi-padz II</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="connectCableButton">
+   <widget class="QPushButton" name="fixConnectionButton">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -571,7 +571,7 @@ width: 1000px;
      </rect>
     </property>
     <property name="text">
-     <string>Plug in Cable</string>
+     <string>Fix Connection</string>
     </property>
    </widget>
    <widget class="QPushButton" name="toggleCprButton">
