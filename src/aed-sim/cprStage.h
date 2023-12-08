@@ -37,6 +37,6 @@ class CprStage : public AEDStage {
 
     signals:
         void connectionFailed(STATUS);
-        void updateCable(bool);
+        void updateElectrodes(bool);
 };
 #endif

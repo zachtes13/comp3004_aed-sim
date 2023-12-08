@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aed, &AED::updateStageOrder, this, &MainWindow::updateCurrentStageIndex);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateElapsedTime);
     connect((CprStage*)aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &CprStage::connectionFailed, this, &MainWindow::updateStatusDisplay);
-    connect((CprStage*)aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &CprStage::updateCable, this, &MainWindow::updateConnection);
+    connect((CprStage*)aed->getStages().at((int)StageOrderInSequence::CPR_STAGE), &CprStage::updateElectrodes, this, &MainWindow::updateConnection);
 
     initialize();
 }

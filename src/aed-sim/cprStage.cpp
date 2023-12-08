@@ -36,7 +36,7 @@ void CprStage::startCompression() {
         updateCompressionPicture(CompressionStatus::NO_COMPRESSIONS);
         QThread::sleep(2);
         connectionFailed(FAIL);
-        updateCable(false);
+        updateElectrodes(false);
         displayText = "START CPR.";
         return;
     }
