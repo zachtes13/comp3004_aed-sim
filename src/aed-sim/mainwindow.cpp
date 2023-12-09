@@ -192,7 +192,6 @@ void MainWindow::drainBattery() {
         }
         if (aed->getBatteryLevel() < 1) {
             togglePower();
-            stopCPR();
             updateStatusDisplay(FAIL);
         }
     }
