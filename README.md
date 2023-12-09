@@ -1,8 +1,10 @@
 # comp3004_aed-sim Team 5
+- Repository: https://github.com/zachtes13/comp3004_aed-sim
+- Project / Issue Tracker: https://github.com/users/zachtes13/projects/3
 
 ## Team Members
 - Vince Cardillo:
-  - UI
+  - UI Design
   - Traceability Matrix
   - Sequence Diagrams
   - Coding
@@ -12,8 +14,9 @@
   - Sequence Diagrams
   - Coding
 - Zachary Tesolin:
-  - Use Case Scenario
+  - Use Cases and Use Case Diagram
   - Sequence Diagrams
+  - Demo Video
   - Coding
 
 ## Interactable Elements
