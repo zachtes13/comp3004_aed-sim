@@ -19,6 +19,11 @@
   - Demo Video
   - Coding
 
+## Submission Organization
+- Source code is located in `src`
+- External assets (such as images) are located in `res`
+- Documentation and demo video is located in `docs`
+
 ## Interactable Elements
 - AED
   - Replace Battery
